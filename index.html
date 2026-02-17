@@ -2,64 +2,67 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>For Princess Milly ❤️</title>
 
 <style>
 body {
     margin: 0;
-    overflow: hidden;
-    font-family: 'Segoe UI', sans-serif;
-    text-align: center;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     background: linear-gradient(135deg, #ff758c, #ff7eb3);
     color: white;
+    text-align: center;
+    overflow: hidden;
+}
+
+.container {
+    margin-top: 30vh;
+    animation: fadeIn 1.5s ease-in-out;
 }
 
 h1 {
-    margin-top: 120px;
-    font-size: 40px;
-    animation: fadeIn 2s ease-in-out;
+    font-size: 26px;
+    padding: 0 20px;
 }
 
 button {
+    padding: 12px 25px;
+    margin: 15px;
     font-size: 18px;
-    padding: 12px 20px;
-    margin: 10px;
     border: none;
-    border-radius: 12px;
+    border-radius: 25px;
     cursor: pointer;
     transition: 0.3s;
 }
 
-.yes-btn {
-    background-color: #00e676;
-    color: white;
-    box-shadow: 0 0 15px #00e676;
-}
-
-.yes-btn:hover {
-    transform: scale(1.1);
-}
-
-.no-btn {
-    background-color: #ff1744;
-    color: white;
-}
-
-.number-btn {
-    background-color: white;
+.yes {
+    background: white;
     color: #ff4081;
     font-weight: bold;
 }
 
+.no {
+    background: rgba(255,255,255,0.3);
+    color: white;
+}
+
+.yes:hover {
+    transform: scale(1.1);
+}
+
+input[type=range] {
+    width: 80%;
+}
+
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-20px); }
+    from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
 .heart {
     position: absolute;
-    color: rgba(255,255,255,0.7);
     animation: float 6s linear infinite;
+    opacity: 0.6;
 }
 
 @keyframes float {
@@ -71,70 +74,71 @@ button {
 
 <body>
 
-<h1>Princess Milly, do you love me? ❤️</h1>
-
-<button class="yes-btn" onclick="showLoveLevel()">Yes 😍</button>
-<button class="no-btn" id="noBtn">No 😅</button>
+<div class="container">
+    <h1>Princess Milly, do you love me? ❤️</h1>
+    <button class="yes" onclick="showSlider()">Yes 😍</button>
+    <button class="no" id="noBtn">No 😅</button>
+</div>
 
 <script>
-// Floating Hearts
-for (let i = 0; i < 20; i++) {
+
+// Floating hearts
+for (let i = 0; i < 15; i++) {
     let heart = document.createElement("div");
     heart.innerHTML = "❤️";
     heart.className = "heart";
     heart.style.left = Math.random() * 100 + "vw";
-    heart.style.fontSize = (20 + Math.random() * 30) + "px";
-    heart.style.animationDuration = (3 + Math.random() * 5) + "s";
+    heart.style.fontSize = (15 + Math.random() * 20) + "px";
+    heart.style.animationDuration = (4 + Math.random() * 4) + "s";
     document.body.appendChild(heart);
 }
 
-// No button runs away smoothly
+// No button runs away (mobile touch compatible)
 const noBtn = document.getElementById("noBtn");
+noBtn.addEventListener("touchstart", moveButton);
+noBtn.addEventListener("mouseover", moveButton);
 
-noBtn.addEventListener("mouseover", function() {
+function moveButton() {
     noBtn.style.position = "absolute";
     noBtn.style.left = Math.random() * (window.innerWidth - 100) + "px";
     noBtn.style.top = Math.random() * (window.innerHeight - 50) + "px";
-});
+}
 
-function showLoveLevel() {
-    document.body.innerHTML = "<h1>How much do you love me? ❤️ (1 - 100)</h1><div id='numbers'></div>";
+function showSlider() {
+    document.body.innerHTML = `
+    <div class="container">
+        <h1>How much do you love me? 💖</h1>
+        <h2 id="percent">100%</h2>
+        <input type="range" min="0" max="100" value="100" id="loveRange">
+    </div>
+    `;
     
-    const container = document.getElementById("numbers");
+    const slider = document.getElementById("loveRange");
+    const percent = document.getElementById("percent");
 
-    for (let i = 1; i <= 100; i++) {
-        const btn = document.createElement("button");
-        btn.innerText = i;
-        btn.className = "number-btn";
-
-        if (i < 100) {
-            btn.addEventListener("mouseover", function() {
-                btn.style.position = "absolute";
-                btn.style.left = Math.random() * (window.innerWidth - 50) + "px";
-                btn.style.top = Math.random() * (window.innerHeight - 50) + "px";
-            });
-        } else {
-            btn.onclick = function() {
-                showFinal();
-            }
+    slider.addEventListener("input", function() {
+        if (slider.value < 100) {
+            slider.value = 100; // يرجعها 100 غصب 😈
         }
+        percent.innerHTML = slider.value + "%";
+    });
 
-        container.appendChild(btn);
-    }
+    slider.addEventListener("change", function() {
+        showFinal();
+    });
 }
 
 function showFinal() {
-    document.body.innerHTML = "<h1>100% LOVE CONFIRMED ❤️🔥</h1>";
+    document.body.innerHTML = "<div class='container'><h1>100% LOVE CONFIRMED ❤️🔥</h1></div>";
     confetti();
 }
 
-// Simple Confetti
 function confetti() {
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 80; i++) {
         let conf = document.createElement("div");
         conf.style.position = "absolute";
-        conf.style.width = "10px";
-        conf.style.height = "10px";
+        conf.style.width = "8px";
+        conf.style.height = "8px";
         conf.style.background = "hsl(" + Math.random()*360 + ",100%,50%)";
         conf.style.left = Math.random() * 100 + "vw";
         conf.style.top = "-10px";
