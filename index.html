@@ -1,151 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>For Milly 💖</title>
-
+<title>Step 1</title>
 <style>
-* { box-sizing: border-box; }
-
-body {
-    margin: 0;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-    overflow: hidden;
-    color: white;
-    text-align: center;
-
-    background: url("bg.jpg") center / cover no-repeat fixed;
+body{
+margin:0;
+text-align:center;
+color:white;
+font-family:system-ui;
+background:url("bg.jpg") center/cover no-repeat fixed;
 }
-
-/* Overlay */
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,.35);
-    z-index: -1;
+body::before{
+content:"";
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.4);
+z-index:-1;
 }
-
-.container {
-    margin-top: 15vh;
-    padding: 20px;
+.container{margin-top:20vh;}
+button{
+padding:15px 30px;
+margin:15px;
+font-size:20px;
+border:none;
+border-radius:30px;
+cursor:pointer;
 }
-
-h1 {
-    font-size: 28px;
-    text-shadow: 0 0 12px #ff4081;
-}
-
-button {
-    padding: 14px 28px;
-    margin: 12px;
-    font-size: 18px;
-    border: none;
-    border-radius: 25px;
-    cursor: pointer;
-    transition: transform .2s ease;
-}
-
-button:hover { transform: scale(1.08); }
-
-.yes {
-    background: #fff;
-    color: #ff4081;
-    font-weight: 700;
-}
-
-.no {
-    background: rgba(255,255,255,.3);
-    color: #fff;
-}
-
-.percent {
-    font-size: 42px;
-    font-weight: bold;
-}
-
-/* Floating hearts */
-.heart {
-    position: fixed;
-    bottom: -40px;
-    font-size: 22px;
-    animation: floatUp linear infinite;
-    opacity: .7;
-    pointer-events: none;
-}
-
-@keyframes floatUp {
-    to { transform: translateY(-110vh); }
-}
+.yes{background:white;color:#ff4081;font-weight:bold;}
+.no{background:rgba(255,255,255,.3);color:white;}
 </style>
 </head>
-
 <body>
 
-<div id="step1" class="container">
-    <h1>Milly, do you love me? ❤️</h1>
-    <button class="yes" id="yes">Yes 😍</button>
-    <button class="no" id="no">No 😅</button>
+<div class="container">
+<h1>Do you love me? ❤️</h1>
+<button class="yes" onclick="location.href='love.html'">Yes 😍</button>
+<button class="no" onclick="moveBtn(this)">No 😅</button>
 </div>
 
-<div id="step2" class="container" hidden></div>
-<div id="final" class="container" hidden></div>
-
-<audio id="heartbeat" preload="none"
-src="https://www.soundjay.com/human/heartbeat-1.mp3"></audio>
-
 <script>
-/* Hearts (عدد أقل = أسرع) */
-for(let i=0;i<12;i++){
-    const h=document.createElement("div");
-    h.className="heart";
-    h.textContent="❤️";
-    h.style.left=Math.random()*100+"vw";
-    h.style.animationDuration=4+Math.random()*4+"s";
-    document.body.appendChild(h);
-}
-
-/* No button escape */
-const noBtn=document.getElementById("no");
-noBtn.onmouseenter=noBtn.ontouchstart=()=>{
-    noBtn.style.position="absolute";
-    noBtn.style.left=Math.random()*(innerWidth-120)+"px";
-    noBtn.style.top=Math.random()*(innerHeight-60)+"px";
-};
-
-/* Yes */
-document.getElementById("yes").onclick=()=>{
-    document.getElementById("heartbeat").play().catch(()=>{});
-    showSlider();
-};
-
-function showSlider(){
-    const s2=document.getElementById("step2");
-    s2.hidden=false;
-    s2.innerHTML=`
-        <h1>How much do you love me? 💖</h1>
-        <div class="percent" id="p">100%</div>
-        <input type="range" min="0" max="100" value="100" id="r">
-        <br><br>
-        <button class="yes" id="confirm">Confirm 💌</button>
-    `;
-
-    const r=s2.querySelector("#r");
-    const p=s2.querySelector("#p");
-
-    r.oninput=()=>{
-        if(r.value<100) r.value=100;
-        p.textContent="100%";
-    };
-
-    s2.querySelector("#confirm").onclick=finalStep;
-}
-
-function finalStep(){
-    const f=document.getElementById("final");
-    f.hidden=false;
-    f.innerHTML="<h1>👑 You are the most beautiful Milly 💕</h1>";
+function moveBtn(btn){
+btn.style.position="absolute";
+btn.style.left=Math.random()*(innerWidth-120)+"px";
+btn.style.top=Math.random()*(innerHeight-60)+"px";
 }
 </script>
 
