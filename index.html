@@ -8,7 +8,7 @@
 <style>
 body {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     background: linear-gradient(135deg, #ff758c, #ff7eb3);
     color: white;
     text-align: center;
@@ -23,6 +23,31 @@ body {
 
 h1 {
     font-size: 24px;
+}
+
+button {
+    padding: 12px 25px;
+    margin: 15px;
+    font-size: 18px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: scale(1.1);
+}
+
+.yes {
+    background: white;
+    color: #ff4081;
+    font-weight: bold;
+}
+
+.no {
+    background: rgba(255,255,255,0.3);
+    color: white;
 }
 
 .percent {
@@ -51,23 +76,6 @@ input[type=range]::-webkit-slider-thumb {
     box-shadow: 0 0 10px #ff4081;
 }
 
-button {
-    margin-top: 20px;
-    padding: 12px 25px;
-    border: none;
-    border-radius: 25px;
-    font-size: 18px;
-    background: white;
-    color: #ff4081;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-button:hover {
-    transform: scale(1.1);
-}
-
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
@@ -88,16 +96,13 @@ button:hover {
 
 <body>
 
-<div class="container">
-    <h1>Princess Milly, how much do you love me? 💖</h1>
-    <div class="percent" id="percent">100%</div>
-    <input type="range" min="0" max="100" value="100" id="loveRange">
-    <br>
-    <button onclick="confirmLove()">Confirm 💌</button>
+<div class="container" id="step1">
+    <h1>Princess Milly, do you love me? ❤️</h1>
+    <button class="yes" onclick="showSlider()">Yes 😍</button>
+    <button class="no" id="noBtn">No 😅</button>
 </div>
 
 <script>
-
 // Floating hearts
 for (let i = 0; i < 15; i++) {
     let heart = document.createElement("div");
@@ -109,22 +114,45 @@ for (let i = 0; i < 15; i++) {
     document.body.appendChild(heart);
 }
 
-const slider = document.getElementById("loveRange");
-const percent = document.getElementById("percent");
+// No button runs away
+const noBtn = document.getElementById("noBtn");
+noBtn.addEventListener("touchstart", moveButton);
+noBtn.addEventListener("mouseover", moveButton);
 
-// تأثير السوستة 👇
-slider.addEventListener("input", function() {
-    percent.innerHTML = slider.value + "%";
+function moveButton() {
+    noBtn.style.position = "absolute";
+    noBtn.style.left = Math.random() * (window.innerWidth - 100) + "px";
+    noBtn.style.top = Math.random() * (window.innerHeight - 50) + "px";
+}
+
+// Step 2: Show slider
+function showSlider() {
+    document.body.innerHTML = `
+    <div class="container">
+        <h1>How much do you love me? 💖</h1>
+        <div class="percent" id="percent">100%</div>
+        <input type="range" min="0" max="100" value="100" id="loveRange">
+        <br>
+        <button onclick="confirmLove()">Confirm 💌</button>
+    </div>
+    `;
     
-    if (slider.value < 100) {
-        setTimeout(() => {
-            slider.value = 100;
-            percent.innerHTML = "100%";
-            if (navigator.vibrate) navigator.vibrate(100);
-        }, 150);
-    }
-});
+    const slider = document.getElementById("loveRange");
+    const percent = document.getElementById("percent");
 
+    slider.addEventListener("input", function() {
+        percent.innerHTML = slider.value + "%";
+        if (slider.value < 100) {
+            setTimeout(() => {
+                slider.value = 100;
+                percent.innerHTML = "100%";
+                if (navigator.vibrate) navigator.vibrate(100);
+            }, 150);
+        }
+    });
+}
+
+// Step 3: Confirm love
 function confirmLove() {
     document.body.innerHTML = `
     <div class="container">
@@ -135,6 +163,7 @@ function confirmLove() {
     confetti();
 }
 
+// Confetti animation
 function confetti() {
     for (let i = 0; i < 80; i++) {
         let conf = document.createElement("div");
