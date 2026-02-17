@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>سؤال مهم ❤️</title>
+<style>
+body {
+    text-align: center;
+    font-family: Arial;
+    background-color: #ffe6f0;
+    margin-top: 100px;
+}
+
+h1 {
+    font-size: 40px;
+}
+
+button {
+    font-size: 20px;
+    padding: 10px 20px;
+    margin: 20px;
+    cursor: pointer;
+    position: relative;
+}
+</style>
+</head>
+
+<body>
+
+<h1>هل بتحبني؟ ❤️</h1>
+
+<button onclick="yesClicked()">أيوه 😍</button>
+<button id="noBtn">لا 😅</button>
+
+<script>
+function yesClicked() {
+    document.body.innerHTML = "<h1>كنت عارف/ة ❤️😂</h1>";
+}
+
+const noBtn = document.getElementById("noBtn");
+
+noBtn.addEventListener("mouseover", function() {
+    const x = Math.floor(Math.random() * window.innerWidth);
+    const y = Math.floor(Math.random() * window.innerHeight);
+    noBtn.style.position = "absolute";
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+});
+</script>
+
+</body>
+</html>
