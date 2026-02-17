@@ -13,109 +13,41 @@ body {
     text-align: center;
     overflow: hidden;
 }
-
 .container {
     margin-top: 20vh;
     padding: 20px;
 }
-
-h1 {
-    font-size: 24px;
-    text-shadow: 0 0 10px #fff, 0 0 20px #ff4081, 0 0 30px #ff4081;
-}
-
-button {
-    padding: 12px 25px;
-    margin: 15px;
-    font-size: 18px;
-    border: none;
-    border-radius: 25px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-button:hover {
-    transform: scale(1.1);
-}
-
+h1 { font-size: 24px; text-shadow: 0 0 10px #fff, 0 0 20px #ff4081, 0 0 30px #ff4081; }
+button { padding: 12px 25px; margin: 15px; font-size: 18px; border: none; border-radius: 25px; cursor: pointer; transition: 0.3s; }
+button:hover { transform: scale(1.1); }
 .yes { background: white; color: #ff4081; font-weight: bold; }
 .no { background: rgba(255,255,255,0.3); color: white; }
-
-.percent {
-    font-size: 40px;
-    margin: 15px 0;
-    font-weight: bold;
-}
-
-input[type=range] {
-    width: 80%;
-    -webkit-appearance: none;
-    height: 8px;
-    border-radius: 5px;
-    background: white;
-    outline: none;
-}
-
-input[type=range]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    background: #ff4081;
-    cursor: pointer;
-    box-shadow: 0 0 10px #ff4081;
-}
-
-/* Floating hearts & stars */
-.heart, .star {
-    position: absolute;
-    animation: float 6s linear infinite;
-    opacity: 0.5;
-}
-
-@keyframes float {
-    from { transform: translateY(100vh); }
-    to { transform: translateY(-10vh); }
-}
-
-/* Coffee pieces */
-.coffeePiece {
-    position: absolute;
-    font-size: 24px;
-    top: -50px;
-    pointer-events: none;
-    animation: fall 5s linear forwards;
-}
-
-@keyframes fall {
-    to { transform: translateY(100vh); opacity: 0; }
-}
-
-/* Neon text glow animation */
-.neon {
-    animation: neonGlow 1.5s ease-in-out infinite alternate;
-}
-
-@keyframes neonGlow {
-    from { text-shadow: 0 0 5px #fff, 0 0 10px #ff4081, 0 0 20px #ff4081; }
-    to { text-shadow: 0 0 20px #fff, 0 0 40px #ff4081, 0 0 60px #ff4081; }
-}
+.percent { font-size: 40px; margin: 15px 0; font-weight: bold; }
+input[type=range] { width: 80%; -webkit-appearance: none; height: 8px; border-radius: 5px; background: white; outline: none; }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 28px; height: 28px; border-radius: 50%; background: #ff4081; cursor: pointer; box-shadow: 0 0 10px #ff4081; }
+.heart, .star { position: absolute; animation: float 6s linear infinite; opacity: 0.5; }
+@keyframes float { from { transform: translateY(100vh); } to { transform: translateY(-10vh); } }
+.coffeePiece { position: absolute; font-size: 24px; top: -50px; pointer-events: none; animation: fall 5s linear forwards; }
+@keyframes fall { to { transform: translateY(100vh); opacity: 0; } }
+.neon { animation: neonGlow 1.5s ease-in-out infinite alternate; }
+@keyframes neonGlow { from { text-shadow: 0 0 5px #fff, 0 0 10px #ff4081, 0 0 20px #ff4081; } to { text-shadow: 0 0 20px #fff, 0 0 40px #ff4081, 0 0 60px #ff4081; } }
 </style>
 </head>
 
 <body>
 
-<!-- Step 1: Love Question -->
-<div class="container" id="step1">
+<div id="step1" class="container">
     <h1 class="neon">Princess Milly, do you love me? ❤️</h1>
     <button class="yes" id="yesLove">Yes 😍</button>
     <button class="no" id="noLove">No 😅</button>
 </div>
 
-<!-- Audio -->
 <audio id="heartbeat" src="https://www.soundjay.com/human/heartbeat-1.mp3"></audio>
 <audio id="coffeeSip" src="https://www.soundjay.com/beverages/coffee-sip-1.mp3"></audio>
+
+<div id="step2" class="container" style="display:none;"></div>
+<div id="step3" class="container" style="display:none;"></div>
+<div id="final" class="container" style="display:none;"></div>
 
 <script>
 // Floating hearts & stars
@@ -148,7 +80,7 @@ function makeButtonRun(btn) {
     }
 }
 
-// Step1
+// Step 1
 makeButtonRun(document.getElementById("noLove"));
 document.getElementById("yesLove").addEventListener("click", () => {
     document.getElementById("heartbeat").play();
@@ -157,14 +89,14 @@ document.getElementById("yesLove").addEventListener("click", () => {
 
 // Step2: Love slider
 function showSlider() {
-    document.body.innerHTML = `
-    <div class="container">
+    const step2 = document.getElementById("step2");
+    step2.style.display = "block";
+    step2.innerHTML = `
         <h1 class="neon">How much do you love me? 💖</h1>
         <div class="percent" id="percent">100%</div>
         <input type="range" min="0" max="100" value="100" id="loveRange">
         <br>
-        <button onclick="confirmSlider()">Confirm 💌</button>
-    </div>
+        <button id="confirmSlider">Confirm 💌</button>
     `;
     
     const slider = document.getElementById("loveRange");
@@ -180,29 +112,29 @@ function showSlider() {
             }, 150);
         }
     });
+
+    document.getElementById("confirmSlider").addEventListener("click", showCoffeeQuestion);
 }
 
-// Confirm slider → Coffee question
-function confirmSlider() {
-    document.body.innerHTML = `
-    <div class="container">
+// Coffee question
+function showCoffeeQuestion() {
+    const step3 = document.getElementById("step3");
+    step3.style.display = "block";
+    step3.innerHTML = `
         <h1 class="neon">Will you meet me for coffee? ☕</h1>
         <button class="yes" id="yesCoffee">Yes 😍</button>
         <button class="no" id="noCoffee">No 😅</button>
-    </div>
     `;
     makeButtonRun(document.getElementById("noCoffee"));
-    document.getElementById("yesCoffee").addEventListener("click", () => {
-        showCoffeePieces();
-    });
+    document.getElementById("yesCoffee").addEventListener("click", showCoffeePieces);
 }
 
 // Coffee pieces animation
 function showCoffeePieces() {
-    const coffeeAudio = document.getElementById("coffeeSip");
-    coffeeAudio.play();
+    document.getElementById("coffeeSip").play();
+    const step3 = document.getElementById("step3");
+    step3.innerHTML = `<h1 class="neon">Look! Your coffee 💖</h1>`;
 
-    document.body.innerHTML = `<div class="container"><h1 class="neon">Look! Your coffee 💖</h1></div>`;
     const message = "I❤️U MILLY";
     for (let i = 0; i < message.length; i++) {
         const piece = document.createElement("div");
@@ -214,20 +146,18 @@ function showCoffeePieces() {
     }
 
     setTimeout(() => {
-        const container = document.querySelector(".container");
         const btn = document.createElement("button");
         btn.innerText = "Confirm 💌";
         btn.onclick = finalMessage;
-        container.appendChild(btn);
+        step3.appendChild(btn);
     }, 5000);
 }
 
 // Final message
 function finalMessage() {
-    document.body.innerHTML = `
-    <div class="container">
-        <h1 class="neon">🎉 You are the most beautiful Milly in the world 💕👑</h1>
-    </div>`;
+    const final = document.getElementById("final");
+    final.style.display = "block";
+    final.innerHTML = `<h1 class="neon">🎉 You are the most beautiful Milly in the world 💕👑</h1>`;
     confetti();
 }
 
