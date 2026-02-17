@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>For Princess Milly ❤️</title>
-
 <style>
 body {
     margin: 0;
@@ -18,11 +17,6 @@ body {
 .container {
     margin-top: 25vh;
     padding: 20px;
-    animation: fadeIn 1.5s ease-in-out;
-}
-
-h1 {
-    font-size: 24px;
 }
 
 button {
@@ -39,72 +33,76 @@ button:hover {
     transform: scale(1.1);
 }
 
-.yes {
-    background: white;
-    color: #ff4081;
-    font-weight: bold;
-}
+.yes { background: white; color: #ff4081; font-weight: bold; }
+.no { background: rgba(255,255,255,0.3); color: white; }
 
-.no {
-    background: rgba(255,255,255,0.3);
-    color: white;
-}
-
-.percent {
-    font-size: 40px;
-    margin: 15px 0;
-    font-weight: bold;
-}
-
-input[type=range] {
-    width: 80%;
-    -webkit-appearance: none;
-    height: 8px;
-    border-radius: 5px;
-    background: white;
-    outline: none;
-}
-
-input[type=range]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    background: #ff4081;
-    cursor: pointer;
-    box-shadow: 0 0 10px #ff4081;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.heart {
+.coffeePiece {
     position: absolute;
-    animation: float 6s linear infinite;
-    opacity: 0.5;
+    font-size: 24px;
+    top: -50px;
+    pointer-events: none;
+    animation: fall 5s linear forwards;
 }
 
-@keyframes float {
-    from { transform: translateY(100vh); }
-    to { transform: translateY(-10vh); }
+@keyframes fall {
+    to { transform: translateY(100vh); opacity: 0; }
 }
 </style>
 </head>
-
 <body>
 
-<!-- Step 1: First question -->
-<div class="container" id="step1">
-    <h1>Princess Milly, do you love me? ❤️</h1>
-    <button class="yes" onclick="showSlider()">Yes 😍</button>
-    <button class="no" id="noBtn1">No 😅</button>
+<div class="container" id="coffeeStep">
+    <h1>Will you meet me for coffee? ☕</h1>
+    <button class="yes" id="yesCoffee">Yes 😍</button>
+    <button class="no" id="noCoffee">No 😅</button>
 </div>
 
 <script>
-// Floating hearts
+const noCoffee = document.getElementById("noCoffee");
+noCoffee.addEventListener("mouseover", moveButton);
+noCoffee.addEventListener("touchstart", moveButton);
+
+function moveButton(e) {
+    e.target.style.position = "absolute";
+    e.target.style.left = Math.random() * (window.innerWidth - 100) + "px";
+    e.target.style.top = Math.random() * (window.innerHeight - 50) + "px";
+}
+
+// كلمة الحب اللي هتظهر على قطع القهوة
+const message = "I❤️U MILLY";
+
+document.getElementById("yesCoffee").addEventListener("click", () => {
+    document.body.innerHTML = '<div class="container"><h1>Look! Your coffee 💖</h1></div>';
+    
+    // نعمل قطع القهوة تتساقط
+    for (let i = 0; i < message.length; i++) {
+        const piece = document.createElement("div");
+        piece.className = "coffeePiece";
+        piece.innerText = message[i];
+        piece.style.left = (10 + i*8) + "vw"; // توزيع عرضي
+        piece.style.animationDelay = (i*0.3) + "s";
+        document.body.appendChild(piece);
+    }
+
+    // بعد 5 ثواني يظهر زر Confirm
+    setTimeout(() => {
+        const container = document.querySelector(".container");
+        const btn = document.createElement("button");
+        btn.innerText = "Confirm 💌";
+        btn.onclick = finalMessage;
+        container.appendChild(btn);
+    }, 5000);
+});
+
+// الرسالة النهائية
+function finalMessage() {
+    document.body.innerHTML = `
+    <div class="container">
+        <h1>🎉 You are the most beautiful Milly in the world 💕👑</h1>
+    </div>`;
+}
+
+// Floating hearts (خلفية خفيفة)
 for (let i = 0; i < 15; i++) {
     let heart = document.createElement("div");
     heart.innerHTML = "❤️";
@@ -115,103 +113,14 @@ for (let i = 0; i < 15; i++) {
     document.body.appendChild(heart);
 }
 
-// Step1: No button runs away
-const noBtn1 = document.getElementById("noBtn1");
-noBtn1.addEventListener("mouseover", moveButton);
-noBtn1.addEventListener("touchstart", moveButton);
-
-function moveButton(e) {
-    e.target.style.position = "absolute";
-    e.target.style.left = Math.random() * (window.innerWidth - 100) + "px";
-    e.target.style.top = Math.random() * (window.innerHeight - 50) + "px";
-}
-
-// Step 2: Show love slider
-function showSlider() {
-    document.body.innerHTML = `
-    <div class="container">
-        <h1>How much do you love me? 💖</h1>
-        <div class="percent" id="percent">100%</div>
-        <input type="range" min="0" max="100" value="100" id="loveRange">
-        <br>
-        <button onclick="confirmSlider()">Confirm 💌</button>
-    </div>
-    `;
-    
-    const slider = document.getElementById("loveRange");
-    const percent = document.getElementById("percent");
-
-    slider.addEventListener("input", function() {
-        percent.innerHTML = slider.value + "%";
-        if (slider.value < 100) {
-            setTimeout(() => {
-                slider.value = 100;
-                percent.innerHTML = "100%";
-                if (navigator.vibrate) navigator.vibrate(100);
-            }, 150);
-        }
-    });
-}
-
-// Step 2 confirm → Step3: Coffee invitation
-function confirmSlider() {
-    document.body.innerHTML = `
-    <div class="container">
-        <h1>Will you meet me for coffee? ☕</h1>
-        <button class="yes" id="yesCoffee">Yes 😍</button>
-        <button class="no" id="noCoffee">No 😅</button>
-    </div>
-    `;
-    const noCoffee = document.getElementById("noCoffee");
-    noCoffee.addEventListener("mouseover", moveButton);
-    noCoffee.addEventListener("touchstart", moveButton);
-
-    document.getElementById("yesCoffee").addEventListener("click", () => {
-        document.body.innerHTML = `
-        <div class="container">
-            <h1>Wow… you really love me 💖</h1>
-            <button onclick="finalMessage()">Confirm 💌</button>
-        </div>
-        `;
-    });
-}
-
-// Step4: Final message
-function finalMessage() {
-    document.body.innerHTML = `
-    <div class="container">
-        <h1>🎉 You are the most beautiful Milly in the world 💕👑</h1>
-    </div>
-    `;
-    confetti();
-}
-
-// Confetti animation
-function confetti() {
-    for (let i = 0; i < 80; i++) {
-        let conf = document.createElement("div");
-        conf.style.position = "absolute";
-        conf.style.width = "8px";
-        conf.style.height = "8px";
-        conf.style.background = "hsl(" + Math.random()*360 + ",100%,50%)";
-        conf.style.left = Math.random() * 100 + "vw";
-        conf.style.top = "-10px";
-        conf.style.animation = "fall 3s linear forwards";
-        document.body.appendChild(conf);
-    }
-}
-
+// Floating hearts animation
 const style = document.createElement("style");
 style.innerHTML = `
-@keyframes fall {
-    to {
-        transform: translateY(100vh);
-        opacity: 0;
-    }
-}`;
+.heart { position: absolute; animation: float 6s linear infinite; opacity: 0.5; }
+@keyframes float { from { transform: translateY(100vh);} to {transform: translateY(-10vh);} }
+`;
 document.head.appendChild(style);
 
 </script>
-
 </body>
 </html>
