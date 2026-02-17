@@ -8,33 +8,39 @@
 body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    background: linear-gradient(135deg, #ff758c, #ff7eb3);
+    overflow: hidden;
     color: white;
     text-align: center;
-    overflow: hidden;
+    background: linear-gradient(135deg, #ff5f6d, #ffc371);
+    animation: bgShift 10s infinite alternate;
+}
+@keyframes bgShift {
+    0% { background: linear-gradient(135deg, #ff5f6d, #ffc371); }
+    50% { background: linear-gradient(135deg, #36d1dc, #5b86e5); }
+    100% { background: linear-gradient(135deg, #ff5f6d, #ffc371); }
 }
 .container {
     margin-top: 15vh;
     padding: 20px;
 }
-h1 { font-size: 28px; text-shadow: 0 0 10px #fff,0 0 20px #ff4081,0 0 30px #ff4081; }
+h1 { font-size: 30px; text-shadow: 0 0 10px #fff,0 0 20px #ff4081,0 0 30px #ff4081; }
 button {
-    padding: 12px 25px;
+    padding: 15px 30px;
     margin: 15px;
-    font-size: 18px;
+    font-size: 20px;
     border: none;
-    border-radius: 25px;
+    border-radius: 30px;
     cursor: pointer;
     transition: 0.3s;
 }
 button:hover { transform: scale(1.1); }
 .yes { background: white; color: #ff4081; font-weight: bold; }
 .no { background: rgba(255,255,255,0.3); color: white; }
-.percent { font-size: 40px; margin: 15px 0; font-weight: bold; }
+.percent { font-size: 45px; margin: 15px 0; font-weight: bold; }
 input[type=range] {
     width: 80%;
     -webkit-appearance: none;
-    height: 8px;
+    height: 10px;
     border-radius: 5px;
     background: white;
     outline: none;
@@ -42,81 +48,74 @@ input[type=range] {
 input[type=range]::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 28px;
-    height: 28px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     background: #ff4081;
     cursor: pointer;
-    box-shadow: 0 0 10px #ff4081;
+    box-shadow: 0 0 15px #ff4081;
 }
 .heart, .star {
     position: absolute;
     animation: float 6s linear infinite;
-    opacity: 0.5;
+    opacity: 0.7;
+    user-select: none;
 }
 @keyframes float { from { transform: translateY(100vh); } to { transform: translateY(-10vh); } }
 .coffeePiece {
     position: absolute;
-    font-size: 24px;
+    font-size: 28px;
     top: -50px;
     pointer-events: none;
     animation: fall 5s linear forwards;
 }
 @keyframes fall { to { transform: translateY(100vh); opacity: 0; } }
 .neon { animation: neonGlow 1.5s ease-in-out infinite alternate; }
-@keyframes neonGlow { from { text-shadow: 0 0 5px #fff,0 0 10px #ff4081,0 0 20px #ff4081; } to { text-shadow: 0 0 20px #fff,0 0 40px #ff4081,0 0 60px #ff4081; } }
+@keyframes neonGlow { from { text-shadow: 0 0 10px #fff,0 0 20px #ff4081,0 0 40px #ff4081; } to { text-shadow: 0 0 30px #fff,0 0 60px #ff4081,0 0 90px #ff4081; } }
 </style>
 </head>
 <body>
 
-<!-- Step 1: Love Question -->
 <div id="step1" class="container">
     <h1 class="neon">Milly, do you love me? ❤️</h1>
     <button class="yes" id="yesLove">Yes 😍</button>
     <button class="no" id="noLove">No 😅</button>
 </div>
 
-<!-- Step 2: Love Slider -->
 <div id="step2" class="container" style="display:none;"></div>
-
-<!-- Step 3: Coffee -->
 <div id="step3" class="container" style="display:none;"></div>
-
-<!-- Step 4: Final Message -->
 <div id="final" class="container" style="display:none;"></div>
 
-<!-- Audio -->
 <audio id="heartbeat" src="https://www.soundjay.com/human/heartbeat-1.mp3"></audio>
 <audio id="coffeeSip" src="https://www.soundjay.com/beverages/coffee-sip-1.mp3"></audio>
+<audio id="music" src="https://www.youtube.com/watch?v=KuK3LVdvAqE&list=RDKuK3LVdvAqE&start_radio=1" autoplay></audio>
 
 <script>
 // Floating hearts & stars
-for (let i=0;i<10;i++){
+for(let i=0;i<20;i++){
     let heart=document.createElement("div");
-    heart.innerHTML="❤️";
-    heart.className="heart";
+    heart.innerHTML="❤️"; heart.className="heart";
     heart.style.left=Math.random()*100+"vw";
-    heart.style.fontSize=(15+Math.random()*20)+"px";
-    heart.style.animationDuration=(4+Math.random()*4)+"s";
+    heart.style.fontSize=(15+Math.random()*25)+"px";
+    heart.style.animationDuration=(4+Math.random()*5)+"s";
     document.body.appendChild(heart);
 
     let star=document.createElement("div");
-    star.innerHTML="⭐";
-    star.className="star";
+    star.innerHTML="⭐"; star.className="star";
     star.style.left=Math.random()*100+"vw";
-    star.style.fontSize=(10+Math.random()*15)+"px";
-    star.style.animationDuration=(5+Math.random()*3)+"s";
+    star.style.fontSize=(10+Math.random()*20)+"px";
+    star.style.animationDuration=(5+Math.random()*4)+"s";
     document.body.appendChild(star);
 }
 
 // Make No buttons run
 function makeButtonRun(btn){
-    btn.addEventListener("mouseover", moveButton);
-    btn.addEventListener("touchstart", moveButton);
+    btn.addEventListener("mouseover",moveButton);
+    btn.addEventListener("touchstart",moveButton);
     function moveButton(e){
         e.target.style.position="absolute";
-        e.target.style.left=Math.random()*(window.innerWidth-100)+"px";
-        e.target.style.top=Math.random()*(window.innerHeight-50)+"px";
+        e.target.style.left=Math.random()*(window.innerWidth-120)+"px";
+        e.target.style.top=Math.random()*(window.innerHeight-60)+"px";
     }
 }
 
@@ -127,7 +126,7 @@ document.getElementById("yesLove").addEventListener("click",()=>{
     showSlider();
 });
 
-// Step 2: Love Slider
+// Step 2: Slider
 function showSlider(){
     const step2=document.getElementById("step2");
     step2.style.display="block";
@@ -144,8 +143,7 @@ function showSlider(){
         percent.innerHTML=slider.value+"%";
         if(slider.value<100){
             setTimeout(()=>{
-                slider.value=100;
-                percent.innerHTML="100%";
+                slider.value=100; percent.innerHTML="100%";
                 if(navigator.vibrate) navigator.vibrate(100);
             },150);
         }
@@ -174,23 +172,39 @@ function showCoffeePieces(){
     const message="I❤️U MILLY";
     for(let i=0;i<message.length;i++){
         const piece=document.createElement("div");
-        piece.className="coffeePiece neon";
-        piece.innerText=message[i];
-        piece.style.left=(10+i*8)+"vw";
-        piece.style.animationDelay=(i*0.3)+"s";
+        piece.className="coffeePiece neon"; piece.innerText=message[i];
+        piece.style.left=(10+i*8)+"vw"; piece.style.animationDelay=(i*0.3)+"s";
         document.body.appendChild(piece);
     }
     setTimeout(()=>{
         const btn=document.createElement("button");
         btn.innerText="Confirm 💌";
-        btn.onclick=finalStepRedirect;
+        btn.onclick=finalStep;
         step3.appendChild(btn);
     },4000);
 }
 
-// Final Step Redirect to YouTube
-function finalStepRedirect(){
-    window.location.href="https://www.youtube.com/watch?v=KuK3LVdvAqE&list=RDKuK3LVdvAqE&start_radio=1";
+// Final Step
+function finalStep(){
+    const final=document.getElementById("final");
+    final.style.display="block";
+    final.innerHTML=`<h1 class="neon">🎉 You are the most beautiful Milly in the world 💕👑</h1>`;
+    confetti();
+    // Redirect to YouTube after 2 seconds
+    setTimeout(()=>{ window.location.href="https://www.youtube.com/watch?v=KuK3LVdvAqE&list=RDKuK3LVdvAqE&start_radio=1"; },2000);
+}
+
+// Confetti
+function confetti(){
+    for(let i=0;i<100;i++){
+        let conf=document.createElement("div");
+        conf.style.position="absolute";
+        conf.style.width="10px"; conf.style.height="10px";
+        conf.style.background="hsl("+Math.random()*360+",100%,50%)";
+        conf.style.left=Math.random()*100+"vw"; conf.style.top="-10px";
+        conf.style.animation="fall 3s linear forwards";
+        document.body.appendChild(conf);
+    }
 }
 </script>
 </body>
