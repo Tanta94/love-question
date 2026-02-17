@@ -8,7 +8,7 @@
 <style>
 body {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     background: linear-gradient(135deg, #ff758c, #ff7eb3);
     color: white;
     text-align: center;
@@ -16,42 +16,56 @@ body {
 }
 
 .container {
-    margin-top: 30vh;
+    margin-top: 25vh;
+    padding: 20px;
     animation: fadeIn 1.5s ease-in-out;
 }
 
 h1 {
-    font-size: 26px;
-    padding: 0 20px;
+    font-size: 24px;
 }
 
-button {
-    padding: 12px 25px;
-    margin: 15px;
-    font-size: 18px;
-    border: none;
-    border-radius: 25px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.yes {
-    background: white;
-    color: #ff4081;
+.percent {
+    font-size: 40px;
+    margin: 15px 0;
     font-weight: bold;
-}
-
-.no {
-    background: rgba(255,255,255,0.3);
-    color: white;
-}
-
-.yes:hover {
-    transform: scale(1.1);
 }
 
 input[type=range] {
     width: 80%;
+    -webkit-appearance: none;
+    height: 8px;
+    border-radius: 5px;
+    background: white;
+    outline: none;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #ff4081;
+    cursor: pointer;
+    box-shadow: 0 0 10px #ff4081;
+}
+
+button {
+    margin-top: 20px;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 25px;
+    font-size: 18px;
+    background: white;
+    color: #ff4081;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: scale(1.1);
 }
 
 @keyframes fadeIn {
@@ -62,7 +76,7 @@ input[type=range] {
 .heart {
     position: absolute;
     animation: float 6s linear infinite;
-    opacity: 0.6;
+    opacity: 0.5;
 }
 
 @keyframes float {
@@ -75,9 +89,11 @@ input[type=range] {
 <body>
 
 <div class="container">
-    <h1>Princess Milly, do you love me? ❤️</h1>
-    <button class="yes" onclick="showSlider()">Yes 😍</button>
-    <button class="no" id="noBtn">No 😅</button>
+    <h1>Princess Milly, how much do you love me? 💖</h1>
+    <div class="percent" id="percent">100%</div>
+    <input type="range" min="0" max="100" value="100" id="loveRange">
+    <br>
+    <button onclick="confirmLove()">Confirm 💌</button>
 </div>
 
 <script>
@@ -93,43 +109,29 @@ for (let i = 0; i < 15; i++) {
     document.body.appendChild(heart);
 }
 
-// No button runs away (mobile touch compatible)
-const noBtn = document.getElementById("noBtn");
-noBtn.addEventListener("touchstart", moveButton);
-noBtn.addEventListener("mouseover", moveButton);
+const slider = document.getElementById("loveRange");
+const percent = document.getElementById("percent");
 
-function moveButton() {
-    noBtn.style.position = "absolute";
-    noBtn.style.left = Math.random() * (window.innerWidth - 100) + "px";
-    noBtn.style.top = Math.random() * (window.innerHeight - 50) + "px";
-}
+// تأثير السوستة 👇
+slider.addEventListener("input", function() {
+    percent.innerHTML = slider.value + "%";
+    
+    if (slider.value < 100) {
+        setTimeout(() => {
+            slider.value = 100;
+            percent.innerHTML = "100%";
+            if (navigator.vibrate) navigator.vibrate(100);
+        }, 150);
+    }
+});
 
-function showSlider() {
+function confirmLove() {
     document.body.innerHTML = `
     <div class="container">
-        <h1>How much do you love me? 💖</h1>
-        <h2 id="percent">100%</h2>
-        <input type="range" min="0" max="100" value="100" id="loveRange">
+        <h1>🎉 You passed the test! 🎉</h1>
+        <h2>You are the most beautiful & sweetest girl in the world 💕👑</h2>
     </div>
     `;
-    
-    const slider = document.getElementById("loveRange");
-    const percent = document.getElementById("percent");
-
-    slider.addEventListener("input", function() {
-        if (slider.value < 100) {
-            slider.value = 100; // يرجعها 100 غصب 😈
-        }
-        percent.innerHTML = slider.value + "%";
-    });
-
-    slider.addEventListener("change", function() {
-        showFinal();
-    });
-}
-
-function showFinal() {
-    document.body.innerHTML = "<div class='container'><h1>100% LOVE CONFIRMED ❤️🔥</h1></div>";
     confetti();
 }
 
