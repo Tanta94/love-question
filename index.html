@@ -96,10 +96,11 @@ input[type=range]::-webkit-slider-thumb {
 
 <body>
 
+<!-- Step 1: First question -->
 <div class="container" id="step1">
     <h1>Princess Milly, do you love me? ❤️</h1>
     <button class="yes" onclick="showSlider()">Yes 😍</button>
-    <button class="no" id="noBtn">No 😅</button>
+    <button class="no" id="noBtn1">No 😅</button>
 </div>
 
 <script>
@@ -114,18 +115,18 @@ for (let i = 0; i < 15; i++) {
     document.body.appendChild(heart);
 }
 
-// No button runs away
-const noBtn = document.getElementById("noBtn");
-noBtn.addEventListener("touchstart", moveButton);
-noBtn.addEventListener("mouseover", moveButton);
+// Step1: No button runs away
+const noBtn1 = document.getElementById("noBtn1");
+noBtn1.addEventListener("mouseover", moveButton);
+noBtn1.addEventListener("touchstart", moveButton);
 
-function moveButton() {
-    noBtn.style.position = "absolute";
-    noBtn.style.left = Math.random() * (window.innerWidth - 100) + "px";
-    noBtn.style.top = Math.random() * (window.innerHeight - 50) + "px";
+function moveButton(e) {
+    e.target.style.position = "absolute";
+    e.target.style.left = Math.random() * (window.innerWidth - 100) + "px";
+    e.target.style.top = Math.random() * (window.innerHeight - 50) + "px";
 }
 
-// Step 2: Show slider
+// Step 2: Show love slider
 function showSlider() {
     document.body.innerHTML = `
     <div class="container">
@@ -133,7 +134,7 @@ function showSlider() {
         <div class="percent" id="percent">100%</div>
         <input type="range" min="0" max="100" value="100" id="loveRange">
         <br>
-        <button onclick="confirmLove()">Confirm 💌</button>
+        <button onclick="confirmSlider()">Confirm 💌</button>
     </div>
     `;
     
@@ -152,12 +153,34 @@ function showSlider() {
     });
 }
 
-// Step 3: Confirm love
-function confirmLove() {
+// Step 2 confirm → Step3: Coffee invitation
+function confirmSlider() {
     document.body.innerHTML = `
     <div class="container">
-        <h1>🎉 You passed the test! 🎉</h1>
-        <h2>You are the most beautiful & sweetest girl in the world 💕👑</h2>
+        <h1>Will you meet me for coffee? ☕</h1>
+        <button class="yes" id="yesCoffee">Yes 😍</button>
+        <button class="no" id="noCoffee">No 😅</button>
+    </div>
+    `;
+    const noCoffee = document.getElementById("noCoffee");
+    noCoffee.addEventListener("mouseover", moveButton);
+    noCoffee.addEventListener("touchstart", moveButton);
+
+    document.getElementById("yesCoffee").addEventListener("click", () => {
+        document.body.innerHTML = `
+        <div class="container">
+            <h1>Wow… you really love me 💖</h1>
+            <button onclick="finalMessage()">Confirm 💌</button>
+        </div>
+        `;
+    });
+}
+
+// Step4: Final message
+function finalMessage() {
+    document.body.innerHTML = `
+    <div class="container">
+        <h1>🎉 You are the most beautiful Milly in the world 💕👑</h1>
     </div>
     `;
     confetti();
