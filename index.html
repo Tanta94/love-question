@@ -3,209 +3,151 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>For Princess Milly 💖</title>
+<title>For Milly 💖</title>
+
 <style>
+* { box-sizing: border-box; }
+
 body {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
     overflow: hidden;
     color: white;
     text-align: center;
-    background: linear-gradient(135deg, #ff5f6d, #ffc371);
-    animation: bgShift 10s infinite alternate;
+
+    background: url("bg.jpg") center / cover no-repeat fixed;
 }
-@keyframes bgShift {
-    0% { background: linear-gradient(135deg, #ff5f6d, #ffc371); }
-    50% { background: linear-gradient(135deg, #36d1dc, #5b86e5); }
-    100% { background: linear-gradient(135deg, #ff5f6d, #ffc371); }
+
+/* Overlay */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.35);
+    z-index: -1;
 }
+
 .container {
     margin-top: 15vh;
     padding: 20px;
 }
-h1 { font-size: 30px; text-shadow: 0 0 10px #fff,0 0 20px #ff4081,0 0 30px #ff4081; }
-button {
-    padding: 15px 30px;
-    margin: 15px;
-    font-size: 20px;
-    border: none;
-    border-radius: 30px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-button:hover { transform: scale(1.1); }
-.yes { background: white; color: #ff4081; font-weight: bold; }
-.no { background: rgba(255,255,255,0.3); color: white; }
-.percent { font-size: 45px; margin: 15px 0; font-weight: bold; }
-input[type=range] {
-    width: 80%;
-    -webkit-appearance: none;
-    height: 10px;
-    border-radius: 5px;
-    background: white;
-    outline: none;
-}
-input[type=range]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background: #ff4081;
-    cursor: pointer;
-    box-shadow: 0 0 15px #ff4081;
-}
-.heart, .star {
-    position: absolute;
-    animation: float 6s linear infinite;
-    opacity: 0.7;
-    user-select: none;
-}
-@keyframes float { from { transform: translateY(100vh); } to { transform: translateY(-10vh); } }
-.coffeePiece {
-    position: absolute;
+
+h1 {
     font-size: 28px;
-    top: -50px;
-    pointer-events: none;
-    animation: fall 5s linear forwards;
+    text-shadow: 0 0 12px #ff4081;
 }
-@keyframes fall { to { transform: translateY(100vh); opacity: 0; } }
-.neon { animation: neonGlow 1.5s ease-in-out infinite alternate; }
-@keyframes neonGlow { from { text-shadow: 0 0 10px #fff,0 0 20px #ff4081,0 0 40px #ff4081; } to { text-shadow: 0 0 30px #fff,0 0 60px #ff4081,0 0 90px #ff4081; } }
+
+button {
+    padding: 14px 28px;
+    margin: 12px;
+    font-size: 18px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: transform .2s ease;
+}
+
+button:hover { transform: scale(1.08); }
+
+.yes {
+    background: #fff;
+    color: #ff4081;
+    font-weight: 700;
+}
+
+.no {
+    background: rgba(255,255,255,.3);
+    color: #fff;
+}
+
+.percent {
+    font-size: 42px;
+    font-weight: bold;
+}
+
+/* Floating hearts */
+.heart {
+    position: fixed;
+    bottom: -40px;
+    font-size: 22px;
+    animation: floatUp linear infinite;
+    opacity: .7;
+    pointer-events: none;
+}
+
+@keyframes floatUp {
+    to { transform: translateY(-110vh); }
+}
 </style>
 </head>
+
 <body>
 
 <div id="step1" class="container">
-    <h1 class="neon">Milly, do you love me? ❤️</h1>
-    <button class="yes" id="yesLove">Yes 😍</button>
-    <button class="no" id="noLove">No 😅</button>
+    <h1>Milly, do you love me? ❤️</h1>
+    <button class="yes" id="yes">Yes 😍</button>
+    <button class="no" id="no">No 😅</button>
 </div>
 
-<div id="step2" class="container" style="display:none;"></div>
-<div id="step3" class="container" style="display:none;"></div>
-<div id="final" class="container" style="display:none;"></div>
+<div id="step2" class="container" hidden></div>
+<div id="final" class="container" hidden></div>
 
-<audio id="heartbeat" src="https://www.soundjay.com/human/heartbeat-1.mp3"></audio>
-<audio id="coffeeSip" src="https://www.soundjay.com/beverages/coffee-sip-1.mp3"></audio>
-<audio id="music" src="https://www.youtube.com/watch?v=KuK3LVdvAqE&list=RDKuK3LVdvAqE&start_radio=1" autoplay></audio>
+<audio id="heartbeat" preload="none"
+src="https://www.soundjay.com/human/heartbeat-1.mp3"></audio>
 
 <script>
-// Floating hearts & stars
-for(let i=0;i<20;i++){
-    let heart=document.createElement("div");
-    heart.innerHTML="❤️"; heart.className="heart";
-    heart.style.left=Math.random()*100+"vw";
-    heart.style.fontSize=(15+Math.random()*25)+"px";
-    heart.style.animationDuration=(4+Math.random()*5)+"s";
-    document.body.appendChild(heart);
-
-    let star=document.createElement("div");
-    star.innerHTML="⭐"; star.className="star";
-    star.style.left=Math.random()*100+"vw";
-    star.style.fontSize=(10+Math.random()*20)+"px";
-    star.style.animationDuration=(5+Math.random()*4)+"s";
-    document.body.appendChild(star);
+/* Hearts (عدد أقل = أسرع) */
+for(let i=0;i<12;i++){
+    const h=document.createElement("div");
+    h.className="heart";
+    h.textContent="❤️";
+    h.style.left=Math.random()*100+"vw";
+    h.style.animationDuration=4+Math.random()*4+"s";
+    document.body.appendChild(h);
 }
 
-// Make No buttons run
-function makeButtonRun(btn){
-    btn.addEventListener("mouseover",moveButton);
-    btn.addEventListener("touchstart",moveButton);
-    function moveButton(e){
-        e.target.style.position="absolute";
-        e.target.style.left=Math.random()*(window.innerWidth-120)+"px";
-        e.target.style.top=Math.random()*(window.innerHeight-60)+"px";
-    }
-}
+/* No button escape */
+const noBtn=document.getElementById("no");
+noBtn.onmouseenter=noBtn.ontouchstart=()=>{
+    noBtn.style.position="absolute";
+    noBtn.style.left=Math.random()*(innerWidth-120)+"px";
+    noBtn.style.top=Math.random()*(innerHeight-60)+"px";
+};
 
-// Step 1
-makeButtonRun(document.getElementById("noLove"));
-document.getElementById("yesLove").addEventListener("click",()=>{
-    document.getElementById("heartbeat").play();
+/* Yes */
+document.getElementById("yes").onclick=()=>{
+    document.getElementById("heartbeat").play().catch(()=>{});
     showSlider();
-});
+};
 
-// Step 2: Slider
 function showSlider(){
-    const step2=document.getElementById("step2");
-    step2.style.display="block";
-    step2.innerHTML=`
-        <h1 class="neon">How much do you love me? 💖</h1>
-        <div class="percent" id="percent">100%</div>
-        <input type="range" min="0" max="100" value="100" id="loveRange">
-        <br>
-        <button id="confirmSlider">Confirm 💌</button>
+    const s2=document.getElementById("step2");
+    s2.hidden=false;
+    s2.innerHTML=`
+        <h1>How much do you love me? 💖</h1>
+        <div class="percent" id="p">100%</div>
+        <input type="range" min="0" max="100" value="100" id="r">
+        <br><br>
+        <button class="yes" id="confirm">Confirm 💌</button>
     `;
-    const slider=document.getElementById("loveRange");
-    const percent=document.getElementById("percent");
-    slider.addEventListener("input",function(){
-        percent.innerHTML=slider.value+"%";
-        if(slider.value<100){
-            setTimeout(()=>{
-                slider.value=100; percent.innerHTML="100%";
-                if(navigator.vibrate) navigator.vibrate(100);
-            },150);
-        }
-    });
-    document.getElementById("confirmSlider").addEventListener("click",showCoffeeQuestion);
+
+    const r=s2.querySelector("#r");
+    const p=s2.querySelector("#p");
+
+    r.oninput=()=>{
+        if(r.value<100) r.value=100;
+        p.textContent="100%";
+    };
+
+    s2.querySelector("#confirm").onclick=finalStep;
 }
 
-// Step 3: Coffee
-function showCoffeeQuestion(){
-    const step3=document.getElementById("step3");
-    step3.style.display="block";
-    step3.innerHTML=`
-        <h1 class="neon">Shall we have coffee today? ☕</h1>
-        <button class="yes" id="yesCoffee">Yes 😍</button>
-        <button class="no" id="noCoffee">No 😅</button>
-    `;
-    makeButtonRun(document.getElementById("noCoffee"));
-    document.getElementById("yesCoffee").addEventListener("click",showCoffeePieces);
-}
-
-// Coffee Pieces
-function showCoffeePieces(){
-    document.getElementById("coffeeSip").play();
-    const step3=document.getElementById("step3");
-    step3.innerHTML=`<h1 class="neon">Looks like you love me! 💖</h1>`;
-    const message="I❤️U MILLY";
-    for(let i=0;i<message.length;i++){
-        const piece=document.createElement("div");
-        piece.className="coffeePiece neon"; piece.innerText=message[i];
-        piece.style.left=(10+i*8)+"vw"; piece.style.animationDelay=(i*0.3)+"s";
-        document.body.appendChild(piece);
-    }
-    setTimeout(()=>{
-        const btn=document.createElement("button");
-        btn.innerText="Confirm 💌";
-        btn.onclick=finalStep;
-        step3.appendChild(btn);
-    },4000);
-}
-
-// Final Step
 function finalStep(){
-    const final=document.getElementById("final");
-    final.style.display="block";
-    final.innerHTML=`<h1 class="neon">🎉 You are the most beautiful Milly in the world 💕👑</h1>`;
-    confetti();
-    // Redirect to YouTube after 2 seconds
-    setTimeout(()=>{ window.location.href="https://www.youtube.com/watch?v=KuK3LVdvAqE&list=RDKuK3LVdvAqE&start_radio=1"; },2000);
-}
-
-// Confetti
-function confetti(){
-    for(let i=0;i<100;i++){
-        let conf=document.createElement("div");
-        conf.style.position="absolute";
-        conf.style.width="10px"; conf.style.height="10px";
-        conf.style.background="hsl("+Math.random()*360+",100%,50%)";
-        conf.style.left=Math.random()*100+"vw"; conf.style.top="-10px";
-        conf.style.animation="fall 3s linear forwards";
-        document.body.appendChild(conf);
-    }
+    const f=document.getElementById("final");
+    f.hidden=false;
+    f.innerHTML="<h1>👑 You are the most beautiful Milly 💕</h1>";
 }
 </script>
+
 </body>
 </html>
