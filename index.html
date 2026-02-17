@@ -1,51 +1,158 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html>
 <head>
 <meta charset="UTF-8">
-<title>سؤال مهم ❤️</title>
+<title>For Princess Milly ❤️</title>
+
 <style>
 body {
+    margin: 0;
+    overflow: hidden;
+    font-family: 'Segoe UI', sans-serif;
     text-align: center;
-    font-family: Arial;
-    background-color: #ffe6f0;
-    margin-top: 100px;
+    background: linear-gradient(135deg, #ff758c, #ff7eb3);
+    color: white;
 }
 
 h1 {
+    margin-top: 120px;
     font-size: 40px;
+    animation: fadeIn 2s ease-in-out;
 }
 
 button {
-    font-size: 20px;
-    padding: 10px 20px;
-    margin: 20px;
+    font-size: 18px;
+    padding: 12px 20px;
+    margin: 10px;
+    border: none;
+    border-radius: 12px;
     cursor: pointer;
-    position: relative;
+    transition: 0.3s;
+}
+
+.yes-btn {
+    background-color: #00e676;
+    color: white;
+    box-shadow: 0 0 15px #00e676;
+}
+
+.yes-btn:hover {
+    transform: scale(1.1);
+}
+
+.no-btn {
+    background-color: #ff1744;
+    color: white;
+}
+
+.number-btn {
+    background-color: white;
+    color: #ff4081;
+    font-weight: bold;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.heart {
+    position: absolute;
+    color: rgba(255,255,255,0.7);
+    animation: float 6s linear infinite;
+}
+
+@keyframes float {
+    from { transform: translateY(100vh); }
+    to { transform: translateY(-10vh); }
 }
 </style>
 </head>
 
 <body>
 
-<h1>هل بتحبني؟ ❤️</h1>
+<h1>Princess Milly, do you love me? ❤️</h1>
 
-<button onclick="yesClicked()">أيوه 😍</button>
-<button id="noBtn">لا 😅</button>
+<button class="yes-btn" onclick="showLoveLevel()">Yes 😍</button>
+<button class="no-btn" id="noBtn">No 😅</button>
 
 <script>
-function yesClicked() {
-    document.body.innerHTML = "<h1>كنت عارف/ة ❤️😂</h1>";
+// Floating Hearts
+for (let i = 0; i < 20; i++) {
+    let heart = document.createElement("div");
+    heart.innerHTML = "❤️";
+    heart.className = "heart";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (20 + Math.random() * 30) + "px";
+    heart.style.animationDuration = (3 + Math.random() * 5) + "s";
+    document.body.appendChild(heart);
 }
 
+// No button runs away smoothly
 const noBtn = document.getElementById("noBtn");
 
 noBtn.addEventListener("mouseover", function() {
-    const x = Math.floor(Math.random() * window.innerWidth);
-    const y = Math.floor(Math.random() * window.innerHeight);
     noBtn.style.position = "absolute";
-    noBtn.style.left = x + "px";
-    noBtn.style.top = y + "px";
+    noBtn.style.left = Math.random() * (window.innerWidth - 100) + "px";
+    noBtn.style.top = Math.random() * (window.innerHeight - 50) + "px";
 });
+
+function showLoveLevel() {
+    document.body.innerHTML = "<h1>How much do you love me? ❤️ (1 - 100)</h1><div id='numbers'></div>";
+    
+    const container = document.getElementById("numbers");
+
+    for (let i = 1; i <= 100; i++) {
+        const btn = document.createElement("button");
+        btn.innerText = i;
+        btn.className = "number-btn";
+
+        if (i < 100) {
+            btn.addEventListener("mouseover", function() {
+                btn.style.position = "absolute";
+                btn.style.left = Math.random() * (window.innerWidth - 50) + "px";
+                btn.style.top = Math.random() * (window.innerHeight - 50) + "px";
+            });
+        } else {
+            btn.onclick = function() {
+                showFinal();
+            }
+        }
+
+        container.appendChild(btn);
+    }
+}
+
+function showFinal() {
+    document.body.innerHTML = "<h1>100% LOVE CONFIRMED ❤️🔥</h1>";
+    confetti();
+}
+
+// Simple Confetti
+function confetti() {
+    for (let i = 0; i < 100; i++) {
+        let conf = document.createElement("div");
+        conf.style.position = "absolute";
+        conf.style.width = "10px";
+        conf.style.height = "10px";
+        conf.style.background = "hsl(" + Math.random()*360 + ",100%,50%)";
+        conf.style.left = Math.random() * 100 + "vw";
+        conf.style.top = "-10px";
+        conf.style.animation = "fall 3s linear forwards";
+        document.body.appendChild(conf);
+    }
+}
+
+const style = document.createElement("style");
+style.innerHTML = `
+@keyframes fall {
+    to {
+        transform: translateY(100vh);
+        opacity: 0;
+    }
+}`;
+document.head.appendChild(style);
+
 </script>
 
 </body>
