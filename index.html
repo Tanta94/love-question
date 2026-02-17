@@ -183,32 +183,14 @@ function showCoffeePieces(){
     setTimeout(()=>{
         const btn=document.createElement("button");
         btn.innerText="Confirm 💌";
-        btn.onclick=finalMessage;
+        btn.onclick=finalStepRedirect;
         step3.appendChild(btn);
     },4000);
 }
 
-// Final Step
-function finalMessage(){
-    const final=document.getElementById("final");
-    final.style.display="block";
-    final.innerHTML=`<h1 class="neon">🎉 You are the most beautiful Milly in the world 💕👑</h1>`;
-    confetti();
-}
-
-// Confetti
-function confetti(){
-    for(let i=0;i<80;i++){
-        let conf=document.createElement("div");
-        conf.style.position="absolute";
-        conf.style.width="8px";
-        conf.style.height="8px";
-        conf.style.background="hsl("+Math.random()*360+",100%,50%)";
-        conf.style.left=Math.random()*100+"vw";
-        conf.style.top="-10px";
-        conf.style.animation="fall 3s linear forwards";
-        document.body.appendChild(conf);
-    }
+// Final Step Redirect to YouTube
+function finalStepRedirect(){
+    window.location.href="https://www.youtube.com/watch?v=KuK3LVdvAqE&list=RDKuK3LVdvAqE&start_radio=1";
 }
 </script>
 </body>
