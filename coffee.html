@@ -1,94 +1,78 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Our Special Memory 💌</title>
+<title>Mily's World 🔐</title>
 
 <style>
-body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Cairo', sans-serif;
-    background: linear-gradient(-45deg, #ff6b81, #ff4757, #ff9ff3, #f368e0);
-    background-size: 400% 400%;
-    animation: gradientBG 10s ease infinite;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    text-align: center;
-    overflow: hidden;
+body{
+    margin:0;
+    padding:0;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background: linear-gradient(135deg,#ff4e8d,#ff6ec7,#ff9a9e);
+    font-family: 'Poppins', sans-serif;
+    overflow:hidden;
+    color:white;
 }
 
-@keyframes gradientBG {
-    0% {background-position: 0% 50%;}
-    50% {background-position: 100% 50%;}
-    100% {background-position: 0% 50%;}
-}
-
-.container {
+.container{
+    text-align:center;
     background: rgba(0,0,0,0.4);
-    padding: 40px;
-    border-radius: 20px;
+    padding:40px;
+    border-radius:20px;
     backdrop-filter: blur(10px);
-    box-shadow: 0 0 30px rgba(0,0,0,0.4);
-    animation: fadeIn 2s ease-in-out;
+    box-shadow:0 0 30px rgba(0,0,0,0.4);
+    width:90%;
+    max-width:500px;
 }
 
-@keyframes fadeIn {
-    from {opacity: 0; transform: translateY(20px);}
-    to {opacity: 1; transform: translateY(0);}
+h1{
+    font-size:45px;
+    margin-bottom:20px;
 }
 
-h1 {
-    font-size: 40px;
-    margin-bottom: 20px;
+button{
+    padding:12px 30px;
+    border:none;
+    border-radius:30px;
+    font-size:16px;
+    cursor:pointer;
+    background:white;
+    color:#ff4e8d;
+    font-weight:bold;
+    transition:0.3s;
+    margin-top:15px;
 }
 
-p {
-    font-size: 20px;
-    margin-bottom: 30px;
+button:hover{
+    transform:scale(1.1);
+    background:#ff4e8d;
+    color:white;
 }
 
-button {
-    padding: 15px 30px;
-    border: none;
-    border-radius: 50px;
-    font-size: 18px;
-    cursor: pointer;
-    background: white;
-    color: #ff4757;
-    font-weight: bold;
-    transition: 0.3s;
+input{
+    padding:12px;
+    width:80%;
+    border-radius:25px;
+    border:none;
+    outline:none;
+    font-size:16px;
+    text-align:center;
+    margin-top:15px;
 }
 
-button:hover {
-    background: #ff4757;
-    color: white;
-    transform: scale(1.1);
+.hidden{
+    display:none;
 }
 
-.hearts {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    pointer-events: none;
-}
-
-.heart {
-    position: absolute;
-    color: white;
-    font-size: 20px;
-    animation: floatUp 5s linear infinite;
-}
-
-@keyframes floatUp {
-    0% {transform: translateY(100vh); opacity: 1;}
-    100% {transform: translateY(-10vh); opacity: 0;}
+#error{
+    margin-top:15px;
+    color:#ffd1dc;
+    font-size:14px;
 }
 </style>
 </head>
@@ -96,36 +80,46 @@ button:hover {
 <body>
 
 <div class="container">
-    <h1>Welcome to My Special Website 💖</h1>
-    <p>
-        هنا فيه كل موحشك 😉<br>
-        مستعدة تدخلي وتجربي الأسئلة؟<br>
-        يلا بينا نسخن حبة حبة 🔥
-    </p>
-    <button onclick="start()">يلا نبدأ 😏</button>
+
+    <div id="welcomeScreen">
+        <h1>Welcome to Mily's World 💖</h1>
+        <p>This world was made only for you...</p>
+        <button onclick="showPassword()">Start ✨</button>
+    </div>
+
+    <div id="passwordScreen" class="hidden">
+        <h1>Enter the Password 🔐</h1>
+        <input type="password" id="passwordInput" placeholder="Type the secret here...">
+        <br>
+        <button onclick="checkPassword()">Unlock 💕</button>
+        <div id="error"></div>
+    </div>
+
+    <div id="successScreen" class="hidden">
+        <h1>Welcome Inside, Mily 💋🔥</h1>
+        <p>You unlocked our world... Let the magic begin ✨</p>
+    </div>
+
 </div>
 
-<div class="hearts" id="hearts"></div>
-
 <script>
-function start(){
-    alert("استني عليا بقى... لسه المفاجآت جاية 😌💋");
+function showPassword(){
+    document.getElementById("welcomeScreen").classList.add("hidden");
+    document.getElementById("passwordScreen").classList.remove("hidden");
 }
 
-function createHeart(){
-    const heart = document.createElement("div");
-    heart.classList.add("heart");
-    heart.innerHTML = "💖";
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
-    document.getElementById("hearts").appendChild(heart);
+function checkPassword(){
+    const password = document.getElementById("passwordInput").value;
+    const correctPassword = "mely@942001";
 
-    setTimeout(() => {
-        heart.remove();
-    }, 5000);
+    if(password === correctPassword){
+        document.getElementById("passwordScreen").classList.add("hidden");
+        document.getElementById("successScreen").classList.remove("hidden");
+    }else{
+        document.getElementById("error").innerText =
+        "Remember what I call you… and my birthday… then you can enter Mily's World 😉";
+    }
 }
-
-setInterval(createHeart, 500);
 </script>
 
 </body>
