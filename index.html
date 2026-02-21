@@ -41,16 +41,17 @@ button{
     min-width:140px;
 }
 button:hover{transform:scale(1.05);}
-input{
+input, textarea{
     padding:14px;
     width:80%;
-    border-radius:25px;
+    border-radius:15px;
     border:none;
     outline:none;
     font-size:16px;
     text-align:center;
     margin-top:15px;
 }
+textarea{resize:none;}
 .hidden{display:none;}
 #error{margin-top:15px;font-size:14px;color:#ffd1dc;}
 .kiss{font-size:80px; animation: kissPop 1s ease forwards;}
@@ -104,12 +105,20 @@ input{
     <div id="heartsContainer"></div>
 </div>
 
+<!-- Love Message Screen -->
+<div id="loveMessageScreen" class="hidden">
+    <h2>💌 Send a Love Message 💖</h2>
+    <textarea id="loveMessage" rows="5" placeholder="Write your love message here... 😘"></textarea>
+    <br>
+    <button onclick="sendLoveEmail()">Send 💌</button>
+</div>
+
 <!-- Final Celebration -->
 <div id="finalScreen" class="hidden">
     <div class="kiss">💋</div>
     <h1>💖❤️☕ You won Mily! 🔥✨</h1>
     <p>Our love adventure is complete 😌💖</p>
-    <button onclick="sendEmail()">Send Score to Email 💌</button>
+    <button onclick="showLoveMessageScreen()">Write a Love Message 💌</button>
 </div>
 
 </div>
@@ -242,13 +251,24 @@ function createConfetti(num){
     }
 }
 
-/* Send Score via Email using mailto */
-function sendEmail(){
-    const subject = encodeURIComponent("Mily Love Test Completed");
-    const body = encodeURIComponent("Mily completed the love quiz! 🎉 Score: " + score);
-    window.location.href = `mailto:tantawey333@gmail.com?subject=${subject}&body=${body}`;
+/* Show Love Message Screen */
+function showLoveMessageScreen(){
+    document.getElementById("finalScreen").classList.add("hidden");
+    document.getElementById("loveMessageScreen").classList.remove("hidden");
 }
 
+/* Send Love Email */
+function sendLoveEmail(){
+    const message = document.getElementById("loveMessage").value;
+    if(message.trim() === ""){
+        alert("Write your love message before sending 😘");
+        return;
+    }
+    const subject = encodeURIComponent("Love Message from Mily 💖");
+    const body = encodeURIComponent(message);
+    window.location.href = `mailto:tantawey333@gmail.com?subject=${subject}&body=${body}`;
+}
 </script>
+
 </body>
 </html>
