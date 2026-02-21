@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mily's website</title>
+<title>Mily's Love Quiz 💖</title>
 
 <style>
 body{
@@ -31,24 +31,25 @@ body{
 }
 
 button{
-    padding:12px 25px;
+    padding:16px 30px;
     border:none;
     border-radius:30px;
-    font-size:16px;
+    font-size:18px;
     cursor:pointer;
     background:white;
     color:#ff4e8d;
     font-weight:bold;
     margin:10px;
     transition:0.3s;
+    min-width:140px;
 }
 
 button:hover{
-    transform:scale(1.1);
+    transform:scale(1.05);
 }
 
 input{
-    padding:12px;
+    padding:14px;
     width:80%;
     border-radius:25px;
     border:none;
@@ -87,6 +88,23 @@ input{
     font-weight:bold;
     color:#ffd1dc;
 }
+
+/* Confetti for final screen */
+.confetti{
+    position:absolute;
+    width:10px;
+    height:10px;
+    background: #fff;
+    opacity:0.8;
+    border-radius:50%;
+    animation: fall 3s linear infinite;
+}
+
+@keyframes fall{
+    0%{transform: translateY(0) rotate(0deg);}
+    100%{transform: translateY(800px) rotate(360deg);}
+}
+
 </style>
 </head>
 
@@ -136,6 +154,7 @@ input{
 
 <script>
 let score = 0;
+let currentQuestion = 0;
 
 function showPassword(){
     document.getElementById("welcomeScreen").classList.add("hidden");
@@ -159,17 +178,17 @@ function startQuiz(){
     loadQuestion();
 }
 
-/* NO button runs away */
+/* NO button runs away on touch for iPhone */
 const noBtn = document.getElementById("noBtn");
-noBtn.addEventListener("mouseover", function(){
-    const x = Math.random() * 300 - 150;
-    const y = Math.random() * 300 - 150;
+noBtn.addEventListener("touchstart", function(){
+    const x = Math.random() * 200 - 100;
+    const y = Math.random() * 200 - 100;
     noBtn.style.position = "relative";
     noBtn.style.left = x + "px";
     noBtn.style.top = y + "px";
 });
 
-/* Love Quiz Questions */
+/* Questions */
 const questions = [
 {
     question: "When is my birthday? 🎂",
@@ -187,8 +206,6 @@ const questions = [
     correct: 2
 }
 ];
-
-let currentQuestion = 0;
 
 function loadQuestion(){
     const q = questions[currentQuestion];
@@ -209,7 +226,7 @@ function loadQuestion(){
 
 function checkAnswer(index){
     if(index === questions[currentQuestion].correct){
-        score += 1;
+        score++;
         document.getElementById("score").innerText = "Score: " + score;
         currentQuestion++;
         if(currentQuestion < questions.length){
@@ -225,7 +242,22 @@ function checkAnswer(index){
 function showFinalScreen(){
     document.getElementById("quizScreen").classList.add("hidden");
     document.getElementById("finalScreen").classList.remove("hidden");
+    createConfetti(50);
 }
+
+/* Confetti animation for final screen */
+function createConfetti(num){
+    for(let i=0;i<num;i++){
+        const conf = document.createElement("div");
+        conf.classList.add("confetti");
+        conf.style.left = Math.random() * 100 + "vw";
+        conf.style.background = ["#ff4e8d","#ff6ec7","#ff9a9e","#fff"][Math.floor(Math.random()*4)];
+        conf.style.animationDuration = (Math.random()*3+2)+"s";
+        document.body.appendChild(conf);
+        setTimeout(()=> conf.remove(),4000);
+    }
+}
+
 </script>
 
 </body>
