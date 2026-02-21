@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mily's World 🔐</title>
+<title>Mily's Love Test 💖</title>
 
 <style>
 body{
@@ -14,7 +14,7 @@ body{
     justify-content:center;
     align-items:center;
     background: linear-gradient(135deg,#ff4e8d,#ff6ec7,#ff9a9e);
-    font-family: 'Poppins', sans-serif;
+    font-family: Arial, sans-serif;
     overflow:hidden;
     color:white;
 }
@@ -25,7 +25,6 @@ body{
     padding:40px;
     border-radius:20px;
     backdrop-filter: blur(10px);
-    box-shadow:0 0 30px rgba(0,0,0,0.4);
     width:90%;
     max-width:500px;
     position:relative;
@@ -40,8 +39,8 @@ button{
     background:white;
     color:#ff4e8d;
     font-weight:bold;
-    transition:0.3s;
     margin:10px;
+    transition:0.3s;
 }
 
 button:hover{
@@ -66,9 +65,9 @@ input{
 #error{
     margin-top:15px;
     font-size:14px;
+    color:#ffd1dc;
 }
 
-/* Kiss Animation */
 .kiss{
     font-size:80px;
     animation: kissPop 1s ease forwards;
@@ -101,18 +100,28 @@ input{
         <div id="error"></div>
     </div>
 
-    <!-- After Success -->
+    <!-- Love Question -->
     <div id="loveScreen" class="hidden">
         <div class="kiss">💋</div>
-        <h2>Are you ready to take our love test<br>and win a coffee with me? ☕💖</h2>
-
-        <button onclick="yesClicked()">YES 💕</button>
+        <h2>Are you ready to take our love test and win a coffee with me? ☕💖</h2>
+        <button onclick="startQuiz()">YES 💕</button>
         <button id="noBtn">NO 😏</button>
+    </div>
+
+    <!-- Quiz -->
+    <div id="quizScreen" class="hidden">
+        <h2>When is my birthday? 🎂</h2>
+        <button onclick="checkAnswer(0)">9 April 2001 💖</button>
+        <button onclick="checkAnswer(1)">7 March 2001 😏</button>
+        <button onclick="checkAnswer(2)">12 April 2000 👀</button>
+        <button onclick="checkAnswer(3)">9 April 2000 😂</button>
+        <div id="result"></div>
     </div>
 
 </div>
 
 <script>
+
 function showPassword(){
     document.getElementById("welcomeScreen").classList.add("hidden");
     document.getElementById("passwordScreen").classList.remove("hidden");
@@ -129,13 +138,13 @@ function checkPassword(){
     }
 }
 
-function yesClicked(){
-    alert("That's my girl 😌🔥 Get ready for the love test!");
+function startQuiz(){
+    document.getElementById("loveScreen").classList.add("hidden");
+    document.getElementById("quizScreen").classList.remove("hidden");
 }
 
-/* Make NO button run away */
+/* NO button runs away */
 const noBtn = document.getElementById("noBtn");
-
 noBtn.addEventListener("mouseover", function(){
     const x = Math.random() * 300 - 150;
     const y = Math.random() * 300 - 150;
@@ -143,6 +152,17 @@ noBtn.addEventListener("mouseover", function(){
     noBtn.style.left = x + "px";
     noBtn.style.top = y + "px";
 });
+
+function checkAnswer(choice){
+    if(choice === 0){
+        document.getElementById("quizScreen").innerHTML =
+        "<h2>Of course you remember it 😌💖</h2><p>You won the coffee date ☕🔥</p>";
+    }else{
+        document.getElementById("result").innerText =
+        "Wrong answer 😏 Try again Mily...";
+    }
+}
+
 </script>
 
 </body>
