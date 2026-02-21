@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mily's Love Test 💖</title>
+<title>Mily's Love Quiz 💖</title>
 
 <style>
 body{
@@ -26,7 +26,7 @@ body{
     border-radius:20px;
     backdrop-filter: blur(10px);
     width:90%;
-    max-width:500px;
+    max-width:600px;
     position:relative;
 }
 
@@ -78,6 +78,15 @@ input{
     50%{transform:scale(1.3);}
     100%{transform:scale(1); opacity:1;}
 }
+
+#score{
+    position:absolute;
+    right:20px;
+    top:20px;
+    font-size:22px;
+    font-weight:bold;
+    color:#ffd1dc;
+}
 </style>
 </head>
 
@@ -110,17 +119,23 @@ input{
 
     <!-- Quiz -->
     <div id="quizScreen" class="hidden">
-        <h2>When is my birthday? 🎂</h2>
-        <button onclick="checkAnswer(0)">9 April 2001 💖</button>
-        <button onclick="checkAnswer(1)">7 March 2001 😏</button>
-        <button onclick="checkAnswer(2)">12 April 2000 👀</button>
-        <button onclick="checkAnswer(3)">9 April 2000 😂</button>
+        <div id="score">Score: 0</div>
+        <h2 id="questionText"></h2>
+        <div id="answers"></div>
         <div id="result"></div>
+    </div>
+
+    <!-- Final Celebration -->
+    <div id="finalScreen" class="hidden">
+        <div class="kiss">💋</div>
+        <h1>💖❤️☕ You won Mily! 🔥✨</h1>
+        <p>Our love test is complete 😌💖</p>
     </div>
 
 </div>
 
 <script>
+let score = 0;
 
 function showPassword(){
     document.getElementById("welcomeScreen").classList.add("hidden");
@@ -141,6 +156,7 @@ function checkPassword(){
 function startQuiz(){
     document.getElementById("loveScreen").classList.add("hidden");
     document.getElementById("quizScreen").classList.remove("hidden");
+    loadQuestion();
 }
 
 /* NO button runs away */
@@ -153,16 +169,63 @@ noBtn.addEventListener("mouseover", function(){
     noBtn.style.top = y + "px";
 });
 
-function checkAnswer(choice){
-    if(choice === 0){
-        document.getElementById("quizScreen").innerHTML =
-        "<h2>Of course you remember it 😌💖</h2><p>You won the coffee date ☕🔥</p>";
+/* Love Quiz Questions */
+const questions = [
+{
+    question: "When is my birthday? 🎂",
+    answers: ["9 April 2001 💖","7 March 2001 😏","12 April 2000 👀","9 April 2000 😂"],
+    correct: 0
+},
+{
+    question: "What is my favorite color? 🎨",
+    answers: ["Red ❤️","Blue 💙","Black 🖤","Pink 💖"],
+    correct: 2
+},
+{
+    question: "What is my favorite food? 🍴",
+    answers: ["Koshari 🍛","Molokhia 🥬","Kabsa 🍖","Foul 🥗"],
+    correct: 2
+}
+];
+
+let currentQuestion = 0;
+
+function loadQuestion(){
+    const q = questions[currentQuestion];
+    document.getElementById("questionText").innerText = q.question;
+
+    const answersDiv = document.getElementById("answers");
+    answersDiv.innerHTML = "";
+
+    q.answers.forEach((ans, index)=>{
+        const btn = document.createElement("button");
+        btn.innerText = ans;
+        btn.onclick = ()=> checkAnswer(index);
+        answersDiv.appendChild(btn);
+    });
+
+    document.getElementById("result").innerText = "";
+}
+
+function checkAnswer(index){
+    if(index === questions[currentQuestion].correct){
+        score += 1;
+        document.getElementById("score").innerText = "Score: " + score;
+        currentQuestion++;
+        if(currentQuestion < questions.length){
+            loadQuestion();
+        }else{
+            showFinalScreen();
+        }
     }else{
-        document.getElementById("result").innerText =
-        "Wrong answer 😏 Try again Mily...";
+        document.getElementById("result").innerText = "Wrong answer 😏 Try again Mily...";
     }
 }
 
+function showFinalScreen(){
+    document.getElementById("quizScreen").classList.add("hidden");
+    document.getElementById("finalScreen").classList.remove("hidden");
+}
 </script>
 
 </body>
