@@ -28,15 +28,11 @@ body{
     box-shadow:0 0 30px rgba(0,0,0,0.4);
     width:90%;
     max-width:500px;
-}
-
-h1{
-    font-size:45px;
-    margin-bottom:20px;
+    position:relative;
 }
 
 button{
-    padding:12px 30px;
+    padding:12px 25px;
     border:none;
     border-radius:30px;
     font-size:16px;
@@ -45,13 +41,11 @@ button{
     color:#ff4e8d;
     font-weight:bold;
     transition:0.3s;
-    margin-top:15px;
+    margin:10px;
 }
 
 button:hover{
     transform:scale(1.1);
-    background:#ff4e8d;
-    color:white;
 }
 
 input{
@@ -71,8 +65,19 @@ input{
 
 #error{
     margin-top:15px;
-    color:#ffd1dc;
     font-size:14px;
+}
+
+/* Kiss Animation */
+.kiss{
+    font-size:80px;
+    animation: kissPop 1s ease forwards;
+}
+
+@keyframes kissPop{
+    0%{transform:scale(0); opacity:0;}
+    50%{transform:scale(1.3);}
+    100%{transform:scale(1); opacity:1;}
 }
 </style>
 </head>
@@ -81,23 +86,28 @@ input{
 
 <div class="container">
 
+    <!-- Welcome -->
     <div id="welcomeScreen">
         <h1>Welcome to Mily's World 💖</h1>
-        <p>This world was made only for you...</p>
         <button onclick="showPassword()">Start ✨</button>
     </div>
 
+    <!-- Password -->
     <div id="passwordScreen" class="hidden">
-        <h1>Enter the Password 🔐</h1>
-        <input type="password" id="passwordInput" placeholder="Type the secret here...">
+        <h2>Enter the Password 🔐</h2>
+        <input type="password" id="passwordInput" placeholder="Type the secret...">
         <br>
         <button onclick="checkPassword()">Unlock 💕</button>
         <div id="error"></div>
     </div>
 
-    <div id="successScreen" class="hidden">
-        <h1>Welcome Inside, Mily 💋🔥</h1>
-        <p>You unlocked our world... Let the magic begin ✨</p>
+    <!-- After Success -->
+    <div id="loveScreen" class="hidden">
+        <div class="kiss">💋</div>
+        <h2>Are you ready to take our love test<br>and win a coffee with me? ☕💖</h2>
+
+        <button onclick="yesClicked()">YES 💕</button>
+        <button id="noBtn">NO 😏</button>
     </div>
 
 </div>
@@ -110,16 +120,29 @@ function showPassword(){
 
 function checkPassword(){
     const password = document.getElementById("passwordInput").value;
-    const correctPassword = "mely@942001";
-
-    if(password === correctPassword){
+    if(password === "mely@942001"){
         document.getElementById("passwordScreen").classList.add("hidden");
-        document.getElementById("successScreen").classList.remove("hidden");
+        document.getElementById("loveScreen").classList.remove("hidden");
     }else{
         document.getElementById("error").innerText =
         "Remember what I call you… and my birthday… then you can enter Mily's World 😉";
     }
 }
+
+function yesClicked(){
+    alert("That's my girl 😌🔥 Get ready for the love test!");
+}
+
+/* Make NO button run away */
+const noBtn = document.getElementById("noBtn");
+
+noBtn.addEventListener("mouseover", function(){
+    const x = Math.random() * 300 - 150;
+    const y = Math.random() * 300 - 150;
+    noBtn.style.position = "relative";
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+});
 </script>
 
 </body>
