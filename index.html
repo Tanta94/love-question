@@ -1,29 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar">
 <head>
   <meta charset="UTF-8">
-  <title>Mohamed & Hager Wedding</title>
+  <title>دعوة زفاف محمد & هاجر</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
+      font-family: 'Cairo', sans-serif;
       background: linear-gradient(135deg, #1a1a1a, #3a0ca3);
       color: white;
       text-align: center;
+      overflow-x: hidden;
     }
 
     .container {
       padding: 40px 20px;
+      animation: fadeIn 2s ease;
     }
 
     h1 {
       font-size: 3rem;
+      margin-bottom: 10px;
+      animation: slideDown 1.5s ease;
     }
 
     h2 {
+      font-size: 2rem;
       color: #ffd166;
+    }
+
+    .date {
+      font-size: 1.5rem;
+      margin: 20px 0;
     }
 
     .countdown {
@@ -50,35 +60,38 @@
     button {
       background: #ff4d6d;
       border: none;
-      padding: 12px 20px;
-      font-size: 1rem;
+      padding: 15px 25px;
+      font-size: 1.2rem;
       color: white;
-      border-radius: 25px;
+      border-radius: 30px;
       cursor: pointer;
-      margin-top: 10px;
+      transition: 0.3s;
     }
 
-    input, textarea {
-      width: 80%;
-      padding: 10px;
-      margin: 10px 0;
-      border-radius: 10px;
-      border: none;
+    button:hover {
+      background: #ff758f;
+      transform: scale(1.1);
     }
 
-    .messages {
-      margin-top: 30px;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-      text-align: left;
+    .heart {
+      position: fixed;
+      color: #ff4d6d;
+      animation: float 5s linear infinite;
     }
 
-    .message {
-      background: rgba(255,255,255,0.1);
-      padding: 10px;
-      margin: 10px 0;
-      border-radius: 10px;
+    @keyframes float {
+      0% { transform: translateY(100vh); opacity: 1; }
+      100% { transform: translateY(-10vh); opacity: 0; }
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+
+    @keyframes slideDown {
+      from {transform: translateY(-50px); opacity: 0;}
+      to {transform: translateY(0); opacity: 1;}
     }
   </style>
 </head>
@@ -86,88 +99,59 @@
 <body>
 
 <div class="container">
-  <h1>💍 Mohamed & Hager 💍</h1>
-  <h2>You are invited to our wedding</h2>
-  <p>April 23, 2026</p>
+  <h1>💍 محمد & هاجر 💍</h1>
+  <h2>بدعوكوا تشاركونا أجمل يوم في حياتنا</h2>
+
+  <div class="date">📅 23 أبريل 2026</div>
 
   <div class="countdown">
-    <div class="box"><span id="days">0</span>Days</div>
-    <div class="box"><span id="hours">0</span>Hours</div>
-    <div class="box"><span id="minutes">0</span>Minutes</div>
-    <div class="box"><span id="seconds">0</span>Seconds</div>
+    <div class="box"><span id="days">0</span>يوم</div>
+    <div class="box"><span id="hours">0</span>ساعة</div>
+    <div class="box"><span id="minutes">0</span>دقيقة</div>
+    <div class="box"><span id="seconds">0</span>ثانية</div>
   </div>
 
-  <button onclick="openMap()">📍 Location</button>
-
-  <h2>💌 Leave a message</h2>
-
-  <input type="text" id="name" placeholder="Your name">
-  <textarea id="message" placeholder="Write something nice..."></textarea>
-  <br>
-  <button onclick="sendMessage()">Send</button>
-
-  <div class="messages" id="messages"></div>
+  <button onclick="openMap()">📍 مكان الفرح</button>
 </div>
 
-<!-- Firebase -->
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js"></script>
-
 <script>
-  // 🔥 IMPORTANT: Replace with your Firebase config
-  const firebaseConfig = {
-    apiKey: "YOUR_KEY",
-    authDomain: "YOUR_PROJECT.firebaseapp.com",
-    databaseURL: "https://YOUR_PROJECT-default-rtdb.firebaseio.com",
-    projectId: "YOUR_PROJECT",
-    storageBucket: "YOUR_PROJECT.appspot.com",
-    messagingSenderId: "XXXX",
-    appId: "XXXX"
-  };
-
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.database();
-
-  function sendMessage() {
-    const name = document.getElementById("name").value;
-    const message = document.getElementById("message").value;
-
-    if (name === "" || message === "") return;
-
-    db.ref("messages").push({
-      name: name,
-      message: message
-    });
-
-    document.getElementById("name").value = "";
-    document.getElementById("message").value = "";
-  }
-
-  db.ref("messages").on("child_added", snapshot => {
-    const data = snapshot.val();
-
-    const div = document.createElement("div");
-    div.classList.add("message");
-    div.innerHTML = "<strong>" + data.name + ":</strong><br>" + data.message;
-
-    document.getElementById("messages").prepend(div);
-  });
-
-  function openMap() {
-    window.open("https://share.google/UxTUPR2U4V8XlbIhM", "_blank");
-  }
-
   const weddingDate = new Date("April 23, 2026 20:00:00").getTime();
 
   setInterval(() => {
     const now = new Date().getTime();
     const diff = weddingDate - now;
 
-    document.getElementById("days").innerText = Math.floor(diff / (1000*60*60*24));
-    document.getElementById("hours").innerText = Math.floor((diff / (1000*60*60)) % 24);
-    document.getElementById("minutes").innerText = Math.floor((diff / (1000*60)) % 60);
-    document.getElementById("seconds").innerText = Math.floor((diff / 1000) % 60);
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+    const seconds = Math.floor((diff / 1000) % 60);
+
+    document.getElementById("days").innerText = days;
+    document.getElementById("hours").innerText = hours;
+    document.getElementById("minutes").innerText = minutes;
+    document.getElementById("seconds").innerText = seconds;
   }, 1000);
+
+  function openMap() {
+    window.open("https://share.google/UxTUPR2U4V8XlbIhM", "_blank");
+  }
+
+  function createHeart() {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerText = "❤";
+
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = Math.random() * 20 + 10 + "px";
+
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+      heart.remove();
+    }, 5000);
+  }
+
+  setInterval(createHeart, 300);
 </script>
 
 </body>
