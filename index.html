@@ -1,273 +1,157 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mily's Love Adventure 💖</title>
-<style>
-body{
-    margin:0;
-    padding:0;
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background: linear-gradient(135deg,#ff4e8d,#ff6ec7,#ff9a9e);
-    font-family: Arial, sans-serif;
-    overflow:hidden;
-    color:white;
-}
-.container{
-    text-align:center;
-    background: rgba(0,0,0,0.4);
-    padding:40px;
-    border-radius:20px;
-    backdrop-filter: blur(10px);
-    width:90%;
-    max-width:600px;
-    position:relative;
-}
-button{
-    padding:16px 30px;
-    border:none;
-    border-radius:30px;
-    font-size:18px;
-    cursor:pointer;
-    background:white;
-    color:#ff4e8d;
-    font-weight:bold;
-    margin:10px;
-    transition:0.3s;
-    min-width:140px;
-}
-button:hover{transform:scale(1.05);}
-input, textarea{
-    padding:14px;
-    width:80%;
-    border-radius:15px;
-    border:none;
-    outline:none;
-    font-size:16px;
-    text-align:center;
-    margin-top:15px;
-}
-textarea{resize:none;}
-.hidden{display:none;}
-#error{margin-top:15px;font-size:14px;color:#ffd1dc;}
-.kiss{font-size:80px; animation: kissPop 1s ease forwards;}
-@keyframes kissPop{0%{transform:scale(0); opacity:0;}50%{transform:scale(1.3);}100%{transform:scale(1); opacity:1;}}
-#score{position:absolute;right:20px;top:20px;font-size:22px;font-weight:bold;color:#ffd1dc;}
-.confetti{position:absolute;width:10px;height:10px;background: #fff;opacity:0.8;border-radius:50%;animation: fall 3s linear infinite;}
-@keyframes fall{0%{transform: translateY(0) rotate(0deg);}100%{transform: translateY(800px) rotate(360deg);}}
-.heart{font-size:40px;margin:10px;cursor:pointer;transition: transform 0.2s;}
-.heart:hover{transform: scale(1.3);}
-</style>
+  <meta charset="UTF-8">
+  <title>دعوة زفاف محمد & هاجر</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Cairo', sans-serif;
+      background: linear-gradient(135deg, #1a1a1a, #3a0ca3);
+      color: white;
+      text-align: center;
+      overflow-x: hidden;
+    }
+
+    .container {
+      padding: 40px 20px;
+      animation: fadeIn 2s ease;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 10px;
+      animation: slideDown 1.5s ease;
+    }
+
+    h2 {
+      font-size: 2rem;
+      color: #ffd166;
+    }
+
+    .date {
+      font-size: 1.5rem;
+      margin: 20px 0;
+    }
+
+    .countdown {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin: 30px 0;
+      flex-wrap: wrap;
+    }
+
+    .box {
+      background: rgba(255,255,255,0.1);
+      padding: 15px;
+      border-radius: 10px;
+      min-width: 80px;
+    }
+
+    .box span {
+      display: block;
+      font-size: 2rem;
+      font-weight: bold;
+    }
+
+    button {
+      background: #ff4d6d;
+      border: none;
+      padding: 15px 25px;
+      font-size: 1.2rem;
+      color: white;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #ff758f;
+      transform: scale(1.1);
+    }
+
+    .heart {
+      position: fixed;
+      color: #ff4d6d;
+      animation: float 5s linear infinite;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(100vh); opacity: 1; }
+      100% { transform: translateY(-10vh); opacity: 0; }
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+
+    @keyframes slideDown {
+      from {transform: translateY(-50px); opacity: 0;}
+      to {transform: translateY(0); opacity: 1;}
+    }
+  </style>
 </head>
+
 <body>
 
 <div class="container">
+  <h1>💍 محمد & هاجر 💍</h1>
+  <h2>بدعوكوا تشاركونا أجمل يوم في حياتنا</h2>
 
-<!-- Welcome -->
-<div id="welcomeScreen">
-    <h1>Welcome to Mily's World 💖</h1>
-    <button onclick="showPassword()">Start ✨</button>
-</div>
+  <div class="date">📅 23 أبريل 2026</div>
 
-<!-- Password -->
-<div id="passwordScreen" class="hidden">
-    <h2>Enter the Password 🔐</h2>
-    <input type="password" id="passwordInput" placeholder="Type the secret...">
-    <br>
-    <button onclick="checkPassword()">Unlock 💕</button>
-    <div id="error"></div>
-</div>
+  <div class="countdown">
+    <div class="box"><span id="days">0</span>يوم</div>
+    <div class="box"><span id="hours">0</span>ساعة</div>
+    <div class="box"><span id="minutes">0</span>دقيقة</div>
+    <div class="box"><span id="seconds">0</span>ثانية</div>
+  </div>
 
-<!-- Love Question -->
-<div id="loveScreen" class="hidden">
-    <div class="kiss">💋</div>
-    <h2>Are you ready for our love adventure? ☕💖</h2>
-    <button onclick="startQuiz()">YES 💕</button>
-    <button id="noBtn">NO 😏</button>
-</div>
-
-<!-- Quiz / Adventure -->
-<div id="quizScreen" class="hidden">
-    <div id="score">Score: 0</div>
-    <h2 id="questionText"></h2>
-    <div id="answers"></div>
-    <div id="result"></div>
-</div>
-
-<!-- Mini-game -->
-<div id="miniGameScreen" class="hidden">
-    <h2>Catch the hearts! 💖</h2>
-    <p>Click all hearts to earn bonus points!</p>
-    <div id="heartsContainer"></div>
-</div>
-
-<!-- Love Message Screen -->
-<div id="loveMessageScreen" class="hidden">
-    <h2>💌 Send a Love Message 💖</h2>
-    <textarea id="loveMessage" rows="5" placeholder="Write your love message here... 😘"></textarea>
-    <br>
-    <button onclick="sendLoveEmail()">Send 💌</button>
-</div>
-
-<!-- Final Celebration -->
-<div id="finalScreen" class="hidden">
-    <div class="kiss">💋</div>
-    <h1>💖❤️☕ You won Mily! 🔥✨</h1>
-    <p>Our love adventure is complete 😌💖</p>
-    <button onclick="showLoveMessageScreen()">Write a Love Message 💌</button>
-</div>
-
+  <button onclick="openMap()">📍 مكان الفرح</button>
 </div>
 
 <script>
-let score=0;
-let currentQuestion=0;
+  const weddingDate = new Date("April 23, 2026 20:00:00").getTime();
 
-function showPassword(){
-    document.getElementById("welcomeScreen").classList.add("hidden");
-    document.getElementById("passwordScreen").classList.remove("hidden");
-}
+  setInterval(() => {
+    const now = new Date().getTime();
+    const diff = weddingDate - now;
 
-function checkPassword(){
-    const password=document.getElementById("passwordInput").value;
-    if(password==="mely@942001"){
-        document.getElementById("passwordScreen").classList.add("hidden");
-        document.getElementById("loveScreen").classList.remove("hidden");
-    }else{
-        document.getElementById("error").innerText="Remember what I call you… and my birthday… then you can enter Mily's World 😉";
-    }
-}
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+    const seconds = Math.floor((diff / 1000) % 60);
 
-function startQuiz(){
-    document.getElementById("loveScreen").classList.add("hidden");
-    document.getElementById("quizScreen").classList.remove("hidden");
-    loadQuestion();
-}
+    document.getElementById("days").innerText = days;
+    document.getElementById("hours").innerText = hours;
+    document.getElementById("minutes").innerText = minutes;
+    document.getElementById("seconds").innerText = seconds;
+  }, 1000);
 
-/* NO button runs away on touch */
-const noBtn=document.getElementById("noBtn");
-noBtn.addEventListener("touchstart",function(){
-    const x=Math.random()*200-100;
-    const y=Math.random()*200-100;
-    noBtn.style.position="relative";
-    noBtn.style.left=x+"px";
-    noBtn.style.top=y+"px";
-});
+  function openMap() {
+    window.open("https://share.google/UxTUPR2U4V8XlbIhM", "_blank");
+  }
 
-/* Quiz Questions */
-const questions=[
-    {question:"When is my birthday? 🎂",
-     answers:["9 April 2001 💖","7 March 2001 😏","12 April 2000 👀","9 April 2000 😂"],
-     correct:0},
-    {question:"What is my favorite color? 🎨",
-     answers:["Red ❤️","Blue 💙","Black 🖤","Pink 💖"],
-     correct:2},
-    {question:"What is my favorite food? 🍴",
-     answers:["Koshari 🍛","Molokhia 🥬","Kabsa 🍖","Foul 🥗"],
-     correct:2}
-];
+  function createHeart() {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerText = "❤";
 
-function loadQuestion(){
-    const q=questions[currentQuestion];
-    document.getElementById("questionText").innerText=q.question;
-    const answersDiv=document.getElementById("answers");
-    answersDiv.innerHTML="";
-    q.answers.forEach((ans,index)=>{
-        const btn=document.createElement("button");
-        btn.innerText=ans;
-        btn.onclick=()=>checkAnswer(index);
-        answersDiv.appendChild(btn);
-    });
-    document.getElementById("result").innerText="";
-}
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = Math.random() * 20 + 10 + "px";
 
-function checkAnswer(index){
-    if(index===questions[currentQuestion].correct){
-        score++;
-        document.getElementById("score").innerText="Score: "+score;
-        currentQuestion++;
-        if(currentQuestion<questions.length){
-            loadQuestion();
-        }else{
-            startMiniGame();
-        }
-    }else{
-        document.getElementById("result").innerText="Wrong answer 😏 Try again Mily...";
-    }
-}
+    document.body.appendChild(heart);
 
-/* Mini-game */
-function startMiniGame(){
-    document.getElementById("quizScreen").classList.add("hidden");
-    document.getElementById("miniGameScreen").classList.remove("hidden");
-    createHearts(5);
-}
+    setTimeout(() => {
+      heart.remove();
+    }, 5000);
+  }
 
-function createHearts(num){
-    const container=document.getElementById("heartsContainer");
-    container.innerHTML="";
-    let clicked=0;
-    for(let i=0;i<num;i++){
-        const heart=document.createElement("span");
-        heart.classList.add("heart");
-        heart.innerText="💖";
-        heart.style.position="relative";
-        heart.style.left=Math.random()*200-100+"px";
-        heart.style.top=Math.random()*100+"px";
-        heart.onclick=function(){
-            score++;
-            clicked++;
-            document.getElementById("score").innerText="Score: "+score;
-            heart.remove();
-            if(clicked===num){
-                showFinalScreen();
-            }
-        };
-        container.appendChild(heart);
-    }
-}
-
-/* Final Screen with Confetti */
-function showFinalScreen(){
-    document.getElementById("miniGameScreen").classList.add("hidden");
-    document.getElementById("finalScreen").classList.remove("hidden");
-    createConfetti(50);
-}
-
-/* Confetti animation */
-function createConfetti(num){
-    for(let i=0;i<num;i++){
-        const conf=document.createElement("div");
-        conf.classList.add("confetti");
-        conf.style.left=Math.random()*100+"vw";
-        conf.style.background=["#ff4e8d","#ff6ec7","#ff9a9e","#fff"][Math.floor(Math.random()*4)];
-        conf.style.animationDuration=(Math.random()*3+2)+"s";
-        document.body.appendChild(conf);
-        setTimeout(()=>conf.remove(),4000);
-    }
-}
-
-/* Show Love Message Screen */
-function showLoveMessageScreen(){
-    document.getElementById("finalScreen").classList.add("hidden");
-    document.getElementById("loveMessageScreen").classList.remove("hidden");
-}
-
-/* Send Love Email */
-function sendLoveEmail(){
-    const message = document.getElementById("loveMessage").value;
-    if(message.trim() === ""){
-        alert("Write your love message before sending 😘");
-        return;
-    }
-    const subject = encodeURIComponent("Love Message from Mily 💖");
-    const body = encodeURIComponent(message);
-    window.location.href = `mailto:tantawey333@gmail.com?subject=${subject}&body=${body}`;
-}
+  setInterval(createHeart, 300);
 </script>
 
 </body>
